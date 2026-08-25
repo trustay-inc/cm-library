@@ -142,6 +142,41 @@
       "source": null
     },
     {
+      "title": "CM 활동 보고서",
+      "purpose": "사내 문화 활동을 기록하고 보고하기 위함",
+      "category": "오피스문화",
+      "status": "운영중",
+      "members": [
+        "박영호",
+        "설수기",
+        "김명환",
+        "주상현",
+        "김광민"
+      ],
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [
+        {
+          "label": "프로필 사진 촬영",
+          "url": null
+        },
+        {
+          "label": "기술블로그 개설",
+          "url": null
+        },
+        {
+          "label": "5분 단체체조",
+          "url": null
+        }
+      ],
+      "month": "2025.05",
+      "source": {
+        "title": "트러스테이 타운홀미팅(2025.05)",
+        "slides": "12-15"
+      }
+    },
+    {
       "title": "놐놐, 누구세요?",
       "purpose": "구성원들이 소속 팀을 쉽게 파악하고 신규 입사자들이 서로를 쉽게 알아볼 수 있도록 돕기 위함.",
       "category": "관계형성",
