@@ -8,8 +8,8 @@
   → Drive 폴더에서 최신 타운홀 덱 찾기
   → Slides 텍스트에서 CM 블록만 잘라내기      (코드, 결정론적)
   → 잘린 블록만 요약해 JSON 항목 만들기        (Gemini API)
-  → activities.json에 병합 후 PR 열기
-  → 사람이 diff 확인하고 Merge
+  → activities.json에 병합해 브랜치 push → Slack 알림
+  → 사람이 링크 클릭해 PR 생성 → diff 확인하고 Merge
   → GitHub Pages 배포
 ```
 
@@ -113,6 +113,7 @@ python3 -m http.server 8000   # → localhost:8000
    - `GEMINI_API_KEY` (ai.google.dev에서 발급. Anthropic API가 아니라 Gemini를
      쓰는 이유는 회사 정책상 새 유료 API 계정을 못 만들어서다 — Gemini는 이 정도
      사용량이면 무료 티어로 해결된다)
+   - `SLACK_WEBHOOK_URL` (Slack Incoming Webhook. 아래 참고)
 6. Settings → Pages → Source를 **GitHub Actions**로
 
 3번을 쓰는 이유는 서비스 계정 JSON 키를 저장소에 두지 않기 위해서다.
@@ -121,6 +122,26 @@ python3 -m http.server 8000   # → localhost:8000
 **4번에서 막힐 수 있다.** 서비스 계정 이메일은 `...gserviceaccount.com`이라
 Workspace 입장에서 외부 사용자다. 외부 공유가 차단돼 있으면 공유가 안 된다.
 그때는 Workspace 관리자에게 해당 도메인을 신뢰 도메인으로 추가해 달라고 요청한다.
+
+## PR은 왜 자동으로 안 열리나
+
+GitHub Actions가 새 활동을 찾으면 브랜치까지는 push하지만, **PR은 직접 열지
+않는다.** `trustay-inc` 조직이 "Actions가 PR을 생성/승인하는 것"을 정책으로
+막아뒀기 때문이다(조직 전체 설정이라 이 저장소만 풀 수 없다). 대신 Slack으로
+"PR 열기" 링크(제목/본문이 미리 채워진 compare 페이지)를 보내고, 사람이 그
+링크를 열어 버튼 한 번 누르면 된다. 사람이 diff를 한 번 보고 넘어가게 만드는
+원래 목적(요약이 범위를 잘못 잡았을 때의 안전장치)은 그대로 유지된다.
+
+Slack 알림을 받으려면 Incoming Webhook이 필요하다:
+
+1. `https://api.slack.com/apps` → Create New App → From scratch
+2. 만든 앱에서 **Incoming Webhooks** → Activate Incoming Webhooks 켜기
+3. Add New Webhook to Workspace → 알림 받을 채널 선택
+4. 발급된 Webhook URL(`https://hooks.slack.com/services/...`)을 `SLACK_WEBHOOK_URL`
+   시크릿으로 등록
+
+등록 안 해도 파이프라인 자체는 안 죽는다 — 브랜치 push까지는 되고 알림만 조용히
+생략된다.
 
 ## 공개 범위
 
