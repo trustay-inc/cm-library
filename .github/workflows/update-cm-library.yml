@@ -5,6 +5,8 @@ name: CM Library 갱신
 # 이렇게 두면 타운홀이 월 중순에 열려도, 일정이 밀려도 알아서 따라간다.
 # 날짜 계산에 의존하지 않으므로 한 달을 통째로 놓치는 실패가 사라진다.
 on:
+  push:
+    branches: [main]        # PR이 merge된 직후 사이트를 바로 재배포하기 위함
   schedule:
     - cron: "0 1 * * 1"     # 매주 월요일 10:00 KST
   workflow_dispatch:
@@ -20,6 +22,9 @@ permissions:
 
 jobs:
   update:
+    # push(=PR merge 직후 재배포 트리거)는 새 덱을 찾는 용도가 아니다.
+    # 여기서 또 추출/요약을 돌리면 Gemini 무료 티어 호출만 낭비된다.
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,14 +44,29 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
+      # 종료코드 4(그 달 CM 발표 없음)는 정상적인 no-op이다 — 실패로 취급하지
+      # 않는다. 그 외 0이 아닌 코드(구조 깨짐 등)는 그대로 실패시킨다.
       - name: CM 블록 추출
+        id: extract
         run: |
+          set +e
           python scripts/extract_cm_block.py \
             ${{ inputs.month && format('--month {0}', inputs.month) || '' }} \
             --out build/cm_block.json
+          code=$?
+          set -e
+          if [ "$code" -eq 4 ]; then
+            echo "이번 달은 CM 발표가 없다 (정상) — no-op으로 종료"
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          elif [ "$code" -ne 0 ]; then
+            exit "$code"
+          else
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: 요약 후 병합
         id: summarize
+        if: steps.extract.outputs.found == 'true'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/summarize_to_json.py --block build/cm_block.json
@@ -72,7 +92,12 @@ jobs:
 
   deploy:
     needs: update
-    if: github.ref == 'refs/heads/main'
+    # update가 push 트리거라서 스킵됐어도(=skipped) 배포는 진행해야 한다.
+    # 진짜 실패(update가 failure/cancelled)일 때만 배포를 막는다.
+    if: |
+      always() &&
+      github.ref == 'refs/heads/main' &&
+      (needs.update.result == 'success' || needs.update.result == 'skipped')
     runs-on: ubuntu-latest
     permissions:
       pages: write
