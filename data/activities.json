@@ -3,8 +3,20 @@
     "showMemberNames": true,
     "_note": "showMemberNames를 false로 두면 실명 대신 참여 인원 수만 렌더한다. 사이트가 public이므로 공개 범위를 좁히려면 여기만 바꾸면 된다."
   },
-  "categories": ["행사", "관계형성", "오피스문화", "커뮤니케이션", "사내도구", "자동화"],
-  "statuses": ["운영중", "일회성", "개선 필요", "중단됨"],
+  "categories": [
+    "행사",
+    "관계형성",
+    "오피스문화",
+    "커뮤니케이션",
+    "사내도구",
+    "자동화"
+  ],
+  "statuses": [
+    "운영중",
+    "일회성",
+    "개선 필요",
+    "중단됨"
+  ],
   "activities": [
     {
       "month": "2026.07",
@@ -12,7 +24,11 @@
       "purpose": "경쟁사 및 시장 트렌드 리포트를 정기적으로 공유해 구성원의 시장 감각을 높인다.",
       "category": "자동화",
       "status": "운영중",
-      "members": ["김주형", "김예빈", "김슬예"],
+      "members": [
+        "김주형",
+        "김예빈",
+        "김슬예"
+      ],
       "memberCount": 3,
       "background": [
         "경쟁사 및 업계 동향 정보가 여러 웹사이트, 보고서, 뉴스 채널에 흩어져 있다.",
@@ -23,11 +39,23 @@
       "usage": "매월 1일 자동으로 #_anything 채널에 리포트가 발송된다.",
       "retrospective": "정기 발송 프로세스가 핵심이라 담당자 변경 시 발송 권한과 앱 설정 인수인계가 필요하다.",
       "resources": [
-        { "label": "타운홀미팅 (2026.07)", "url": null },
-        { "label": "#_anything Catch up", "url": null },
-        { "label": "trustay-industry-watcher", "url": "https://github.com/trustay-inc/trustay-industry-watcher" }
+        {
+          "label": "타운홀미팅 (2026.07)",
+          "url": null
+        },
+        {
+          "label": "#_anything Catch up",
+          "url": null
+        },
+        {
+          "label": "trustay-industry-watcher",
+          "url": "https://github.com/trustay-inc/trustay-industry-watcher"
+        }
       ],
-      "source": { "title": "트러스테이 타운홀미팅(2026.07)", "slides": "8-13" }
+      "source": {
+        "title": "트러스테이 타운홀미팅(2026.07)",
+        "slides": "8-13"
+      }
     },
     {
       "month": "2026.06",

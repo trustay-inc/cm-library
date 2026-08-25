@@ -112,8 +112,7 @@ python3 scripts/extract_cm_block.py --audit
 
 **2. 남은 작업**
 
-- [x] GitHub 저장소 생성 — 완료 (2026-08-25). `trustay-inc/cm-library`, public.
-      (로컬 디렉터리는 아직 git init/push 안 함 — 코드 push는 별도로 진행할 것)
+- [x] GitHub 저장소 생성 + 코드 push — 완료 (2026-08-25). `trustay-inc/cm-library`, public.
 - [x] GCP 서비스 계정 + WIF 설정 — 완료 (2026-08-25). 프로젝트는 로컬 OAuth와
       같은 `cm-library-506606`을 그대로 썼다.
       - 서비스 계정: `cm-library-ci@cm-library-506606.iam.gserviceaccount.com`
@@ -126,19 +125,23 @@ python3 scripts/extract_cm_block.py --audit
       - `roles/iam.workloadIdentityUser`를 서비스 계정에 바인딩하되 멤버를
         위 repo 하나로 스코프한 `principalSet://...attribute.repository/trustay-inc/cm-library`로 제한.
       - 서비스 계정 키(JSON)는 만들지 않았다 — 설계 그대로 WIF만 사용.
-- [ ] 타운홀 폴더를 서비스 계정에 뷰어로 공유 — 요청 발송함 (2026-08-25), 승인 대기 중
-      → 이 폴더는 개인 폴더가 아니라 **공유 드라이브**다. 본인 계정은 `canEdit: true`지만
-        `canShare: false`라서 직접 공유를 추가할 수 없다(스코프를 넓혀도 안 됨 — 계정
-        자체의 Drive ACL 제약). 공유 관리자(organizer) 권한은 3명뿐:
-        `yejin.lee@trustay.me`, `sanghee.lee@trustay.me`, `seungo.lee@trustay.me`
-        (모두 Culture&Growth팀) — 이 중 한 명에게 서비스 계정 이메일을 뷰어로
-        추가해달라고 요청해야 한다. 만약 그 사람도 "조직 외부 공유 불가"에 막히면
-        그때 비로소 Workspace 관리자에게 신뢰 도메인 추가를 요청한다.
-- [x] 저장소 Secrets `GCP_WIF_PROVIDER`, `GCP_SERVICE_ACCOUNT` 등록 완료 (2026-08-25)
-- [ ] 저장소 Secret `GEMINI_API_KEY` (API 키라서 자동화하지 않음 — ai.google.dev에서
-      발급 후 직접 `gh secret set GEMINI_API_KEY --repo trustay-inc/cm-library`로
-      등록할 것. Claude/Anthropic이 아니라 Gemini를 쓰는 이유는 설계 결정 5번 참고)
+- [x] 타운홀 폴더를 서비스 계정에 뷰어로 공유 — 완료 (2026-08-25 확인).
+      이 폴더는 개인 폴더가 아니라 **공유 드라이브**였고, 본인 계정은 `canEdit: true`지만
+      `canShare: false`라서 직접 공유를 추가할 수 없었다(스코프를 넓혀도 안 됨 — 계정
+      자체의 Drive ACL 제약). 공유 관리자(organizer)는 3명뿐: `yejin.lee@trustay.me`,
+      `sanghee.lee@trustay.me`, `seungo.lee@trustay.me` (모두 Culture&Growth팀) —
+      이 중 한 명이 승인해준 것으로 보인다. (참고: 조직 외부 공유 자체가 막혀있지
+      않았다는 뜻이므로, 앞으로 비슷한 공유가 또 필요해지면 관리자 개입 없이 이
+      세 명 중 한 명에게만 요청하면 된다.)
+- [x] 저장소 Secrets `GCP_WIF_PROVIDER`, `GCP_SERVICE_ACCOUNT`, `GEMINI_API_KEY`
+      등록 완료 (2026-08-25). `ANTHROPIC_API_KEY`는 등록했다가 Gemini로 전환하며
+      삭제함 — 워크플로우가 더 이상 참조하지 않는다.
+      ⚠️ 로컬에서 dry-run 테스트하며 실제 키 값이 대화창에 평문으로 노출됐다.
+      사용자가 재발급은 하지 않기로 결정함(2026-08-25) — 위험을 인지한 상태.
 - [ ] Settings → Pages → Source를 GitHub Actions로
+- [ ] GitHub Actions 실전 테스트 (`workflow_dispatch`) — WIF+Drive+Gemini+PR 생성까지
+      한 번에 검증하는 건 아직 안 함. 로컬 dry-run(추출+Gemini 요약)까지만 확인됨
+      (2025.08 블록으로 테스트, 정상 동작).
 - [ ] 2026.06 이하 7개 활동 상세 백필 (지금은 목적과 참여 인원만 있음)
 - [ ] 실명 공개 여부 최종 결정
 
