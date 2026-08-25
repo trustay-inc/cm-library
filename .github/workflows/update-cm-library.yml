@@ -1,0 +1,90 @@
+name: CM Library 갱신
+
+# 매주 실행한다. 스크립트가 폴더에서 "가장 최신 타운홀 덱"을 찾고,
+# 그 월이 이미 activities.json에 있으면 아무것도 하지 않는다.
+# 이렇게 두면 타운홀이 월 중순에 열려도, 일정이 밀려도 알아서 따라간다.
+# 날짜 계산에 의존하지 않으므로 한 달을 통째로 놓치는 실패가 사라진다.
+on:
+  schedule:
+    - cron: "0 1 * * 1"     # 매주 월요일 10:00 KST
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "특정 월을 강제로 처리 (YYYY.MM). 비우면 최신 덱"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write            # Workload Identity Federation에 필요
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # 서비스 계정 키(JSON)를 쓰지 않는다. GitHub OIDC 토큰으로
+      # 매 실행마다 단기 토큰을 발급받는다. 장기 자격증명이 저장소에 남지 않는다.
+      - name: Google 인증
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: CM 블록 추출
+        run: |
+          python scripts/extract_cm_block.py \
+            ${{ inputs.month && format('--month {0}', inputs.month) || '' }} \
+            --out build/cm_block.json
+
+      - name: 요약 후 병합
+        id: summarize
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/summarize_to_json.py --block build/cm_block.json
+
+      # 자동 커밋이 아니라 PR을 연다. 사람이 diff를 한 번 보고 Merge한다.
+      # 요약이 범위를 잘못 잡았을 때 public 사이트에 그대로 나가는 걸 막는 마지막 관문이다.
+      - name: 검토용 PR 생성
+        if: steps.summarize.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: cm-library/${{ steps.summarize.outputs.month }}
+          title: "CM Library: ${{ steps.summarize.outputs.month }} 활동 추가"
+          body: |
+            타운홀 덱에서 자동 추출한 ${{ steps.summarize.outputs.month }} CM 활동입니다.
+
+            **Merge 전에 확인해 주세요**
+            - [ ] 목적과 회고가 실제 발표 내용과 맞는지
+            - [ ] 참여자 이름이 정확한지
+            - [ ] CM과 무관한 내용(사업 지표, 인사 정보)이 섞이지 않았는지
+            - [ ] public 사이트에 나가도 되는 내용인지
+          commit-message: "CM Library: ${{ steps.summarize.outputs.month }} 추가"
+          delete-branch: true
+
+  deploy:
+    needs: update
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4

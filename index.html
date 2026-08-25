@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CM Library · 트러스테이 문화 자산 대장</title>
+<meta name="description" content="Culture Master 활동을 찾아서 다시 쓰기 위한 사내 아카이브.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16211d;
+  --ink-2:#4c5852;
+  --ink-3:#7d8a83;
+  --paper:#e7eae4;
+  --card:#f7f8f4;
+  --line:#c9cfc6;
+  --line-soft:#dbe0d8;
+  --indigo:#3b3a7a;
+  --olive:#66743a;
+  --amber:#9e6c14;
+  --rust:#83452e;
+
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --sans:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+
+  --gap:clamp(1.25rem,3vw,2.5rem);
+  --rail:14rem;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+button{font:inherit;color:inherit;cursor:pointer}
+
+.wrap{max-width:74rem;margin:0 auto;padding:0 var(--gap)}
+
+/* ── masthead ─────────────────────────────── */
+.masthead{border-bottom:1px solid var(--line);padding:clamp(2rem,5vw,3.5rem) 0 0}
+.mark{
+  font-family:var(--mono);
+  font-weight:600;
+  font-size:clamp(1.5rem,4.5vw,2.1rem);
+  letter-spacing:-.02em;
+  margin:0;
+}
+.mark span{color:var(--ink-3);font-weight:400}
+.masthead__sub{
+  margin:.45rem 0 0;
+  color:var(--ink-2);
+  max-width:34rem;
+  font-size:.95rem;
+}
+.ledger{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0 clamp(1.5rem,4vw,3rem);
+  margin:clamp(1.5rem,4vw,2.25rem) 0 0;
+  padding:0;
+  list-style:none;
+}
+.ledger div{
+  font-family:var(--mono);
+  font-size:1.65rem;
+  font-weight:500;
+  line-height:1.1;
+  letter-spacing:-.03em;
+}
+.ledger dt{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin:.3rem 0 1.5rem;
+}
+
+/* ── layout ───────────────────────────────── */
+.shell{display:grid;grid-template-columns:var(--rail) 1fr;gap:clamp(2rem,5vw,4rem);padding:clamp(2rem,5vw,3rem) 0 6rem}
+@media (max-width:52rem){.shell{grid-template-columns:1fr;gap:2rem}}
+
+/* ── spine (signature) ────────────────────── */
+.spine{position:sticky;top:2rem;align-self:start}
+@media (max-width:52rem){.spine{position:static}}
+.spine__head{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin:0 0 .6rem;
+}
+.spine__head + .spine__head{margin-top:2rem}
+.spine__list{list-style:none;margin:0;padding:0}
+.chip{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  width:100%;
+  background:none;
+  border:0;
+  border-radius:2px;
+  padding:.38rem .45rem;
+  text-align:left;
+  font-size:.9rem;
+  color:var(--ink-2);
+  transition:background .15s,color .15s;
+}
+.chip:hover{background:#0000000a;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+.chip[aria-pressed="true"] .chip__n{color:var(--card);opacity:.7}
+.chip__label{flex:1;font-family:var(--mono);font-size:.85rem}
+.chip__n{font-family:var(--mono);font-size:.78rem;color:var(--ink-3)}
+.ticks{display:flex;gap:2px;flex:0 0 auto}
+.ticks i{width:3px;height:11px;background:currentColor;opacity:.45;border-radius:1px}
+
+/* ── entries ──────────────────────────────── */
+.year{margin:0 0 .9rem;display:flex;align-items:baseline;gap:.75rem}
+.year h2{
+  font-family:var(--mono);
+  font-size:1.15rem;
+  font-weight:600;
+  letter-spacing:-.01em;
+  margin:0;
+}
+.year hr{flex:1;border:0;border-top:1px solid var(--line);margin:0}
+.year + .stack{margin-bottom:2.75rem}
+
+.stack{display:flex;flex-direction:column;gap:.6rem;margin:0 0 2.75rem;padding:0;list-style:none}
+
+.entry{
+  background:var(--card);
+  border:1px solid var(--line-soft);
+  border-left:3px solid var(--st,var(--ink-3));
+  border-radius:3px;
+  padding:1.05rem 1.15rem;
+}
+.entry__call{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.04em;
+  color:var(--ink-3);
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.5rem;
+  margin:0 0 .5rem;
+}
+.entry__status{color:var(--st,var(--ink-2));font-weight:500}
+.entry__title{font-size:1.08rem;font-weight:600;letter-spacing:-.01em;margin:0 0 .3rem;line-height:1.35}
+.entry__purpose{margin:0;color:var(--ink-2);font-size:.94rem}
+.entry__who{
+  margin:.7rem 0 0;
+  font-family:var(--mono);
+  font-size:.78rem;
+  color:var(--ink-3);
+}
+.entry__toggle{
+  margin:.85rem 0 0;
+  background:none;
+  border:0;
+  padding:0;
+  font-family:var(--mono);
+  font-size:.75rem;
+  letter-spacing:.04em;
+  color:var(--indigo);
+  border-bottom:1px solid #3b3a7a55;
+}
+.entry__toggle:hover{border-bottom-color:var(--indigo)}
+
+.detail{margin:1.1rem 0 0;padding:1.1rem 0 0;border-top:1px solid var(--line-soft)}
+.detail[hidden]{display:none}
+.detail h4{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin:0 0 .4rem;
+  font-weight:500;
+}
+.detail h4:not(:first-child){margin-top:1.1rem}
+.detail p{margin:0;font-size:.92rem;color:var(--ink-2)}
+.detail ul{margin:0;padding-left:1.1rem;font-size:.92rem;color:var(--ink-2)}
+.detail ul li + li{margin-top:.25rem}
+.detail a{color:var(--indigo)}
+.reuse{
+  margin-top:1.3rem;
+  background:var(--ink);
+  color:var(--card);
+  border:0;
+  border-radius:2px;
+  padding:.55rem .95rem;
+  font-family:var(--mono);
+  font-size:.76rem;
+  letter-spacing:.03em;
+}
+.reuse:hover{background:var(--indigo)}
+
+.empty{
+  border:1px dashed var(--line);
+  border-radius:3px;
+  padding:2.5rem 1.5rem;
+  text-align:center;
+  color:var(--ink-2);
+  font-size:.94rem;
+}
+
+footer{border-top:1px solid var(--line);padding:1.5rem 0 3rem;color:var(--ink-3);font-family:var(--mono);font-size:.72rem}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <h1 class="mark">CM&nbsp;LIBRARY<span> / trustay</span></h1>
+    <p class="masthead__sub">지난 Culture Master가 무엇을 만들었고 무엇을 남겼는지 찾아, 다시 쓰기 위한 대장입니다.</p>
+    <dl class="ledger" id="ledger"></dl>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="shell">
+    <nav class="spine" aria-label="활동 필터">
+      <p class="spine__head">연도</p>
+      <ul class="spine__list" id="f-year"></ul>
+      <p class="spine__head">유형</p>
+      <ul class="spine__list" id="f-cat"></ul>
+    </nav>
+    <main id="entries" aria-live="polite"></main>
+  </div>
+</div>
+
+<footer class="wrap">데이터 출처 · data/activities.json — 매월 타운홀 덱에서 자동 갱신</footer>
+
+<script>
+const STATUS_COLOR = {
+  "운영중": "var(--olive)",
+  "일회성": "var(--indigo)",
+  "개선 필요": "var(--amber)",
+  "중단됨": "var(--rust)"
+};
+
+let DATA = null;
+const filters = { year: null, cat: null };
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+
+function visible() {
+  return DATA.activities.filter(a =>
+    (!filters.year || a.month.startsWith(filters.year)) &&
+    (!filters.cat || a.category === filters.cat));
+}
+
+function who(a) {
+  const names = DATA.config?.showMemberNames ? (a.members || []) : [];
+  if (names.length) return names.join(" · ");
+  const n = a.memberCount ?? (a.members || []).length;
+  return n ? `참여 ${n}명` : "";
+}
+
+function renderLedger() {
+  const acts = DATA.activities;
+  const live = acts.filter(a => a.status === "운영중").length;
+  const people = acts.reduce((s, a) => s + (a.memberCount ?? (a.members || []).length), 0);
+  const rows = [
+    ["등록 활동", acts.length],
+    ["운영 중", live],
+    ["누적 참여", people],
+    ["최신 등록", acts[0] ? acts[0].month : "—"]
+  ];
+  document.getElementById("ledger").innerHTML = rows.map(([k, v]) =>
+    `<div><div>${esc(v)}</div><dt>${esc(k)}</dt></div>`).join("");
+}
+
+function renderFilters() {
+  const years = [...new Set(DATA.activities.map(a => a.month.slice(0, 4)))].sort().reverse();
+
+  document.getElementById("f-year").innerHTML =
+    [`<li>${chip("year", null, "전체", DATA.activities.length, DATA.activities.length)}</li>`]
+      .concat(years.map(y => {
+        const n = DATA.activities.filter(a => a.month.startsWith(y)).length;
+        return `<li>${chip("year", y, y, n, n)}</li>`;
+      })).join("");
+
+  document.getElementById("f-cat").innerHTML =
+    [`<li>${chip("cat", null, "전체", DATA.activities.length, 0)}</li>`]
+      .concat(DATA.categories.map(c => {
+        const n = DATA.activities.filter(a => a.category === c).length;
+        return n ? `<li>${chip("cat", c, c, n, 0)}</li>` : "";
+      })).join("");
+}
+
+function chip(kind, val, label, count, ticks) {
+  const on = filters[kind] === val;
+  const t = ticks ? `<span class="ticks">${"<i></i>".repeat(Math.min(ticks, 6))}</span>` : "";
+  return `<button class="chip" aria-pressed="${on}" data-kind="${kind}" data-val="${val ?? ""}">
+    <span class="chip__label">${esc(label)}</span>${t}<span class="chip__n">${count}</span></button>`;
+}
+
+function renderEntries() {
+  const acts = visible();
+  const host = document.getElementById("entries");
+
+  if (!acts.length) {
+    host.innerHTML = `<div class="empty">조건에 맞는 활동이 없습니다. 필터를 바꿔 보세요.</div>`;
+    return;
+  }
+
+  const byYear = {};
+  acts.forEach(a => (byYear[a.month.slice(0, 4)] ??= []).push(a));
+
+  host.innerHTML = Object.keys(byYear).sort().reverse().map(y => `
+    <section>
+      <div class="year"><h2>${y}</h2><hr></div>
+      <ul class="stack">${byYear[y].map(card).join("")}</ul>
+    </section>`).join("");
+}
+
+function card(a) {
+  const c = STATUS_COLOR[a.status] || "var(--ink-3)";
+  const w = who(a);
+  return `<li class="entry" style="--st:${c}">
+    <p class="entry__call">
+      <span>CM·${esc(a.month)}</span>
+      <span>${esc(a.category)}</span>
+      <span class="entry__status">${esc(a.status)}</span>
+    </p>
+    <h3 class="entry__title">${esc(a.title)}</h3>
+    <p class="entry__purpose">${esc(a.purpose)}</p>
+    ${w ? `<p class="entry__who">${esc(w)}</p>` : ""}
+    <button class="entry__toggle" data-month="${esc(a.month)}">자세히 보기</button>
+    <div class="detail" hidden>${detail(a)}</div>
+  </li>`;
+}
+
+function detail(a) {
+  let h = "";
+  if (a.background?.length)
+    h += `<h4>해결하려던 문제</h4><ul>${a.background.map(b => `<li>${esc(b)}</li>`).join("")}</ul>`;
+  if (a.usage) h += `<h4>사용 방법</h4><p>${esc(a.usage)}</p>`;
+  if (a.retrospective) h += `<h4>인수인계 메모</h4><p>${esc(a.retrospective)}</p>`;
+  if (a.resources?.length)
+    h += `<h4>자료</h4><ul>${a.resources.map(r => r.url
+      ? `<li><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.label)}</a></li>`
+      : `<li>${esc(r.label)}</li>`).join("")}</ul>`;
+  if (a.source) h += `<h4>출처</h4><p>${esc(a.source.title)} · 슬라이드 ${esc(a.source.slides)}</p>`;
+  if (!h) h = `<p>상세 기록이 아직 없습니다. 타운홀 자료에서 보완할 수 있습니다.</p>`;
+  return h + `<button class="reuse" data-month="${esc(a.month)}">이 활동으로 초안 복사</button>`;
+}
+
+function draft(a) {
+  return [
+    `# ${a.title} (재사용 초안)`,
+    ``,
+    `원본: CM·${a.month} / ${a.category}`,
+    ``,
+    `## 목적`,
+    a.purpose,
+    ``,
+    `## 해결하려던 문제`,
+    ...(a.background?.length ? a.background.map(b => `- ${b}`) : ["- (원본에 기록 없음)"]),
+    ``,
+    `## 이번에 달라지는 점`,
+    `- `,
+    ``,
+    `## 이전 담당자 메모`,
+    a.retrospective || "(없음)",
+    ``,
+    `## 성과를 무엇으로 확인할지`,
+    `- `
+  ].join("\n");
+}
+
+document.addEventListener("click", async e => {
+  const chipBtn = e.target.closest(".chip");
+  if (chipBtn) {
+    const { kind, val } = chipBtn.dataset;
+    filters[kind] = val || null;
+    renderFilters();
+    renderEntries();
+    return;
+  }
+
+  const toggle = e.target.closest(".entry__toggle");
+  if (toggle) {
+    const d = toggle.nextElementSibling;
+    const open = d.hidden;
+    d.hidden = !open;
+    toggle.textContent = open ? "접기" : "자세히 보기";
+    return;
+  }
+
+  const reuse = e.target.closest(".reuse");
+  if (reuse) {
+    const a = DATA.activities.find(x => x.month === reuse.dataset.month);
+    try {
+      await navigator.clipboard.writeText(draft(a));
+      reuse.textContent = "초안이 복사되었습니다";
+    } catch {
+      reuse.textContent = "복사할 수 없습니다 — 직접 선택해 주세요";
+    }
+    setTimeout(() => { reuse.textContent = "이 활동으로 초안 복사"; }, 2400);
+  }
+});
+
+fetch("data/activities.json", { cache: "no-cache" })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => {
+    DATA = d;
+    DATA.activities.sort((a, b) => b.month.localeCompare(a.month));
+    renderLedger();
+    renderFilters();
+    renderEntries();
+  })
+  .catch(() => {
+    document.getElementById("entries").innerHTML =
+      `<div class="empty">활동 데이터를 불러오지 못했습니다. data/activities.json 경로를 확인해 주세요.</div>`;
+  });
+</script>
+</body>
+</html>

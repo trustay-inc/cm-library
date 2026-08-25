@@ -1,0 +1,131 @@
+{
+  "config": {
+    "showMemberNames": true,
+    "_note": "showMemberNames를 false로 두면 실명 대신 참여 인원 수만 렌더한다. 사이트가 public이므로 공개 범위를 좁히려면 여기만 바꾸면 된다."
+  },
+  "categories": ["행사", "관계형성", "오피스문화", "커뮤니케이션", "사내도구", "자동화"],
+  "statuses": ["운영중", "일회성", "개선 필요", "중단됨"],
+  "activities": [
+    {
+      "month": "2026.07",
+      "title": "사내 인텔리전스 리포트 자동화",
+      "purpose": "경쟁사 및 시장 트렌드 리포트를 정기적으로 공유해 구성원의 시장 감각을 높인다.",
+      "category": "자동화",
+      "status": "운영중",
+      "members": ["김주형", "김예빈", "김슬예"],
+      "memberCount": 3,
+      "background": [
+        "경쟁사 및 업계 동향 정보가 여러 웹사이트, 보고서, 뉴스 채널에 흩어져 있다.",
+        "매번 각 매체를 방문해 조사하고 분석하는 데 리소스가 든다.",
+        "데이터를 모아도 전체 시장 흐름과 인사이트를 뽑아내기 어렵다.",
+        "일부만 경쟁사 정보를 파악하고 조직 전체에 공유되지 않는다."
+      ],
+      "usage": "매월 1일 자동으로 #_anything 채널에 리포트가 발송된다.",
+      "retrospective": "정기 발송 프로세스가 핵심이라 담당자 변경 시 발송 권한과 앱 설정 인수인계가 필요하다.",
+      "resources": [
+        { "label": "타운홀미팅 (2026.07)", "url": null },
+        { "label": "#_anything Catch up", "url": null },
+        { "label": "trustay-industry-watcher", "url": "https://github.com/trustay-inc/trustay-industry-watcher" }
+      ],
+      "source": { "title": "트러스테이 타운홀미팅(2026.07)", "slides": "8-13" }
+    },
+    {
+      "month": "2026.06",
+      "title": "Slack 경조사 봇",
+      "purpose": "경조사 공유와 신청 흐름을 Slack 안에서 간단히 처리한다.",
+      "category": "사내도구",
+      "status": "운영중",
+      "members": [],
+      "memberCount": 2,
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [],
+      "source": null
+    },
+    {
+      "month": "2026.05",
+      "title": "오늘 뭐 먹지? & CoffeeChat 봇",
+      "purpose": "점심 선택 피로를 줄이고 부담 없는 구성원 간 만남을 만든다.",
+      "category": "사내도구",
+      "status": "운영중",
+      "members": [],
+      "memberCount": 3,
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [],
+      "source": null
+    },
+    {
+      "month": "2026.03",
+      "title": "트러스테이 청소 캠페인",
+      "purpose": "사무실 환경 정돈을 반복 가능한 작은 문화로 만든다.",
+      "category": "오피스문화",
+      "status": "운영중",
+      "members": [],
+      "memberCount": 2,
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [],
+      "source": null
+    },
+    {
+      "month": "2025.11",
+      "title": "2025 연말행사 기획",
+      "purpose": "한 해를 함께 마무리하고 구성원의 참여감을 높인다.",
+      "category": "행사",
+      "status": "일회성",
+      "members": [],
+      "memberCount": 4,
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [],
+      "source": null
+    },
+    {
+      "month": "2025.10",
+      "title": "TRUSTAY 밥집 MAP & 랜덤 메뉴 추천",
+      "purpose": "점심 장소 탐색과 메뉴 결정을 더 쉽고 재미있게 만든다.",
+      "category": "사내도구",
+      "status": "운영중",
+      "members": [],
+      "memberCount": 2,
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [],
+      "source": null
+    },
+    {
+      "month": "2025.09",
+      "title": "Slack 프로필 표기 표준화",
+      "purpose": "신규 입사자도 각 구성원이 하는 일을 Slack에서 충분히 알 수 있게 한다.",
+      "category": "커뮤니케이션",
+      "status": "개선 필요",
+      "members": [],
+      "memberCount": 2,
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [],
+      "source": null
+    },
+    {
+      "month": "2024.06",
+      "title": "랜덤런치 V.2 & 그라운드룰 알리미 V.1",
+      "purpose": "서로 다른 팀의 구성원이 점심을 통해 자연스럽게 만난다.",
+      "category": "관계형성",
+      "status": "중단됨",
+      "members": [],
+      "memberCount": 3,
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [],
+      "source": null
+    }
+  ]
+}
