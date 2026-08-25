@@ -3,262 +3,284 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CM Library · 트러스테이 문화 자산 대장</title>
+<title>Culture Master 활동 보드 · 트러스테이 문화 자산 아카이브</title>
 <meta name="description" content="Culture Master 활동을 찾아서 다시 쓰기 위한 사내 아카이브.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#16211d;
-  --ink-2:#4c5852;
-  --ink-3:#7d8a83;
-  --paper:#e7eae4;
-  --card:#f7f8f4;
-  --line:#c9cfc6;
-  --line-soft:#dbe0d8;
-  --indigo:#3b3a7a;
-  --olive:#66743a;
-  --amber:#9e6c14;
-  --rust:#83452e;
-
-  --mono:"IBM Plex Mono",ui-monospace,monospace;
-  --sans:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
-
-  --gap:clamp(1.25rem,3vw,2.5rem);
-  --rail:14rem;
+  --background:#f5f5f7;
+  --foreground:#1d1d1f;
+  --muted:#6e6e73;
+  --secondary:#515154;
+  --line:#d2d2d7;
+  --panel:#fff;
+  --panel-soft:#fbfbfd;
+  --brand:#0071e3;
+  --brand-strong:#06c;
+  --radius-card:18px;
+  --radius-control:980px;
+  --shadow:0 20px 50px #0000000f;
+  --sans:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-
-*,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+*{box-sizing:border-box}
+html{background:var(--background)}
 body{
+  background:var(--background);
+  min-width:320px;
+  color:var(--foreground);
   margin:0;
-  background:var(--paper);
-  color:var(--ink);
+  line-height:1.5;
   font-family:var(--sans);
-  font-size:16px;
-  line-height:1.6;
   -webkit-font-smoothing:antialiased;
 }
-:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
-button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+h1,h2,h3,p{margin-top:0}
+img,svg{display:block;max-width:100%}
 
-.wrap{max-width:74rem;margin:0 auto;padding:0 var(--gap)}
+.shell{width:min(1200px,100% - 40px);margin:0 auto;padding:44px 0 64px}
 
-/* ── masthead ─────────────────────────────── */
-.masthead{border-bottom:1px solid var(--line);padding:clamp(2rem,5vw,3.5rem) 0 0}
-.mark{
-  font-family:var(--mono);
-  font-weight:600;
-  font-size:clamp(1.5rem,4.5vw,2.1rem);
-  letter-spacing:-.02em;
-  margin:0;
-}
-.mark span{color:var(--ink-3);font-weight:400}
-.masthead__sub{
-  margin:.45rem 0 0;
-  color:var(--ink-2);
-  max-width:34rem;
-  font-size:.95rem;
-}
-.ledger{
-  display:flex;
-  flex-wrap:wrap;
-  gap:0 clamp(1.5rem,4vw,3rem);
-  margin:clamp(1.5rem,4vw,2.25rem) 0 0;
-  padding:0;
-  list-style:none;
-}
-.ledger div{
-  font-family:var(--mono);
-  font-size:1.65rem;
-  font-weight:500;
-  line-height:1.1;
-  letter-spacing:-.03em;
-}
-.ledger dt{
-  font-family:var(--mono);
-  font-size:.68rem;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--ink-3);
-  margin:.3rem 0 1.5rem;
-}
+/* ── intro ────────────────────────────────── */
+.intro{justify-content:space-between;align-items:center;gap:32px;padding-bottom:34px;display:flex;flex-wrap:wrap}
+.eyebrow{color:var(--secondary);letter-spacing:0;text-transform:uppercase;margin:0 0 10px;font-size:12px;font-weight:600}
+h1{letter-spacing:0;margin:0 0 10px;font-size:56px;font-weight:600;line-height:60px}
+.lead{max-width:620px;color:var(--muted);margin-bottom:0;font-size:17px;line-height:25px}
 
-/* ── layout ───────────────────────────────── */
-.shell{display:grid;grid-template-columns:var(--rail) 1fr;gap:clamp(2rem,5vw,4rem);padding:clamp(2rem,5vw,3rem) 0 6rem}
-@media (max-width:52rem){.shell{grid-template-columns:1fr;gap:2rem}}
+/* ── page layout ──────────────────────────── */
+.status-page{gap:20px;display:grid}
 
-/* ── spine (signature) ────────────────────── */
-.spine{position:sticky;top:2rem;align-self:start}
-@media (max-width:52rem){.spine{position:static}}
-.spine__head{
-  font-family:var(--mono);
-  font-size:.68rem;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--ink-3);
-  margin:0 0 .6rem;
+.dashboard-panel{
+  border:1px solid var(--line);
+  border-radius:var(--radius-card);
+  background:var(--panel);
+  box-shadow:var(--shadow);
+  gap:18px;
+  padding:22px;
+  display:grid;
 }
-.spine__head + .spine__head{margin-top:2rem}
-.spine__list{list-style:none;margin:0;padding:0}
-.chip{
-  display:flex;
+.panel-heading h2{margin-bottom:6px;font-size:28px;font-weight:400;line-height:32px}
+.panel-heading p{color:var(--muted);margin:0;line-height:1.5}
+
+.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;display:grid}
+.dashboard-card{
+  border-radius:var(--radius-card);
+  background:var(--panel-soft);
+  border:1px solid #e8e8ed;
+  align-content:space-between;
+  gap:12px;
+  min-height:128px;
+  padding:16px;
+  display:grid;
+}
+.dashboard-card span,.dashboard-breakdown>span{color:var(--secondary);font-size:12px;font-weight:600}
+.dashboard-card strong{color:var(--foreground);font-size:40px;font-weight:600;line-height:44px}
+.dashboard-card small{color:var(--muted);font-size:12px;line-height:1.35}
+
+.dashboard-breakdown{gap:10px;padding-top:2px;display:grid}
+
+.mini-tags{flex-wrap:wrap;gap:8px;display:flex}
+.mini-tags span,.mini-tags button,.status-badge,.type-chip{
+  border-radius:var(--radius-control);
+  min-height:26px;
+  color:var(--secondary);
+  background:#f2f2f4;
+  border:1px solid #0000;
   align-items:center;
-  gap:.55rem;
-  width:100%;
-  background:none;
-  border:0;
-  border-radius:2px;
-  padding:.38rem .45rem;
-  text-align:left;
-  font-size:.9rem;
-  color:var(--ink-2);
-  transition:background .15s,color .15s;
-}
-.chip:hover{background:#0000000a;color:var(--ink)}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--card)}
-.chip[aria-pressed="true"] .chip__n{color:var(--card);opacity:.7}
-.chip__label{flex:1;font-family:var(--mono);font-size:.85rem}
-.chip__n{font-family:var(--mono);font-size:.78rem;color:var(--ink-3)}
-.ticks{display:flex;gap:2px;flex:0 0 auto}
-.ticks i{width:3px;height:11px;background:currentColor;opacity:.45;border-radius:1px}
-
-/* ── entries ──────────────────────────────── */
-.year{margin:0 0 .9rem;display:flex;align-items:baseline;gap:.75rem}
-.year h2{
-  font-family:var(--mono);
-  font-size:1.15rem;
+  padding:5px 11px;
+  font-size:12px;
   font-weight:600;
-  letter-spacing:-.01em;
-  margin:0;
+  transition:background-color .16s,color .16s;
+  display:inline-flex;
 }
-.year hr{flex:1;border:0;border-top:1px solid var(--line);margin:0}
-.year + .stack{margin-bottom:2.75rem}
+.mini-tags span:hover,.mini-tags button:hover,.status-badge:hover,.type-chip:hover{
+  color:var(--brand-strong);
+  background:#e8f2ff;
+}
+.mini-tags button.active{background:var(--brand);color:#fff;border-color:#0071e338}
 
-.stack{display:flex;flex-direction:column;gap:.6rem;margin:0 0 2.75rem;padding:0;list-style:none}
+/* ── status colors ────────────────────────── */
+.card-meta>span{border-radius:var(--radius-control);background:#f2f2f4;min-height:24px;padding:5px 10px}
+.state-운영중{color:var(--brand-strong);background:#0071e31a}
+.state-일회성{color:var(--secondary);background:#f2f2f4}
+.state-개선-필요{color:#7a5600;background:#fff3cd}
+.state-중단됨{color:#6e6e73;background:#eeeeef}
 
-.entry{
-  background:var(--card);
-  border:1px solid var(--line-soft);
-  border-left:3px solid var(--st,var(--ink-3));
-  border-radius:3px;
-  padding:1.05rem 1.15rem;
-}
-.entry__call{
-  font-family:var(--mono);
-  font-size:.72rem;
-  letter-spacing:.04em;
-  color:var(--ink-3);
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:.5rem;
-  margin:0 0 .5rem;
-}
-.entry__status{color:var(--st,var(--ink-2));font-weight:500}
-.entry__title{font-size:1.08rem;font-weight:600;letter-spacing:-.01em;margin:0 0 .3rem;line-height:1.35}
-.entry__purpose{margin:0;color:var(--ink-2);font-size:.94rem}
-.entry__who{
-  margin:.7rem 0 0;
-  font-family:var(--mono);
-  font-size:.78rem;
-  color:var(--ink-3);
-}
-.entry__toggle{
-  margin:.85rem 0 0;
-  background:none;
-  border:0;
-  padding:0;
-  font-family:var(--mono);
-  font-size:.75rem;
-  letter-spacing:.04em;
-  color:var(--indigo);
-  border-bottom:1px solid #3b3a7a55;
-}
-.entry__toggle:hover{border-bottom-color:var(--indigo)}
+/* ── workspace / timeline ─────────────────── */
+.workspace{grid-template-columns:minmax(0,1fr) 380px;align-items:start;gap:20px;display:grid}
 
-.detail{margin:1.1rem 0 0;padding:1.1rem 0 0;border-top:1px solid var(--line-soft)}
-.detail[hidden]{display:none}
-.detail h4{
-  font-family:var(--mono);
-  font-size:.68rem;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--ink-3);
-  margin:0 0 .4rem;
-  font-weight:500;
-}
-.detail h4:not(:first-child){margin-top:1.1rem}
-.detail p{margin:0;font-size:.92rem;color:var(--ink-2)}
-.detail ul{margin:0;padding-left:1.1rem;font-size:.92rem;color:var(--ink-2)}
-.detail ul li + li{margin-top:.25rem}
-.detail a{color:var(--indigo)}
-.reuse{
-  margin-top:1.3rem;
-  background:var(--ink);
-  color:var(--card);
-  border:0;
-  border-radius:2px;
-  padding:.55rem .95rem;
-  font-family:var(--mono);
-  font-size:.76rem;
-  letter-spacing:.03em;
-}
-.reuse:hover{background:var(--indigo)}
+.timeline{gap:26px;min-width:0;display:grid}
+.year-group{grid-template-columns:86px minmax(0,1fr);gap:18px;display:grid}
+.year-group h2{letter-spacing:0;margin:0 0 4px;font-size:22px;height:max-content;color:var(--brand-strong);position:sticky;top:18px}
+.items{gap:12px;display:grid}
 
-.empty{
+.activity-card{
+  border:1px solid var(--line);
+  border-radius:var(--radius-card);
+  background:var(--panel);
+  transition:border-color .16s,background-color .16s;
+}
+.activity-card:hover,.activity-card.selected{background:#f7fbff;border-color:#0071e359}
+
+.card-main{width:100%;min-width:0;text-align:left;gap:8px;padding:20px;display:grid}
+.period{color:var(--brand-strong);font-size:12px;font-weight:600}
+.card-title{overflow-wrap:anywhere;font-size:22px;font-weight:600;line-height:28px}
+.card-summary{color:var(--muted);font-size:14px;line-height:18px}
+.card-meta{color:#687077;flex-wrap:wrap;gap:8px;margin-top:4px;font-size:13px;display:flex}
+
+/* ── drawer ───────────────────────────────── */
+.drawer{
+  border:1px solid var(--line);
+  border-radius:var(--radius-card);
+  background:var(--panel);
+  box-shadow:var(--shadow);
+  gap:18px;
+  padding:24px;
+  display:grid;
+  position:sticky;
+  top:18px;
+}
+.drawer-head{justify-content:space-between;gap:16px;display:flex}
+.drawer h2{letter-spacing:0;margin-bottom:4px;font-size:22px;overflow-wrap:anywhere}
+.drawer-summary{color:var(--secondary);margin:0;font-size:17px;line-height:25px}
+.chip-row{flex-wrap:wrap;gap:8px;display:flex}
+.chip-row .state-운영중{background:#0071e31a}
+.chip-row .state-일회성{background:#f2f2f4}
+.chip-row .state-개선-필요{background:#fff3cd}
+.chip-row .state-중단됨{background:#eeeeef}
+
+.member-strip{flex-wrap:wrap;gap:8px;display:flex}
+.member-pill{
+  border-radius:var(--radius-control);
+  background:var(--panel-soft);
+  border:1px solid #e8e8ed;
+  color:var(--secondary);
+  padding:6px 12px;
+  font-size:13px;
+  font-weight:600;
+  display:inline-flex;
+}
+
+.problem-card{
+  border-radius:var(--radius-card);
+  background:var(--panel-soft);
+  border:1px solid #e8e8ed;
+  gap:8px;
+  padding:14px;
+  display:grid;
+}
+.problem-card h3{margin-bottom:2px;font-size:15px}
+.problem-card ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.problem-card li{overflow-wrap:anywhere;font-size:13px;line-height:1.45;color:var(--secondary)}
+
+.detail-grid{grid-template-columns:1fr 1fr;gap:10px;display:grid}
+.detail-grid div{border-radius:var(--radius-card);background:var(--panel-soft);border:1px solid #e8e8ed;min-height:84px;padding:14px}
+.detail-grid span{color:var(--muted);margin-bottom:8px;font-size:12px;font-weight:600;display:block}
+.detail-grid strong{overflow-wrap:anywhere;font-size:15px;line-height:1.45}
+
+.link-list{gap:8px;display:grid}
+.link-list h3{margin-bottom:2px;font-size:15px}
+.link-list a,.link-list p,.reference-item{overflow-wrap:anywhere;color:var(--brand-strong);margin:0;line-height:1.45}
+.link-list a{transition:color .16s,text-decoration-color .16s}
+.link-list a:hover{color:var(--brand);text-underline-offset:3px;text-decoration:underline;text-decoration-thickness:1px}
+.reference-item{color:#495057;display:block}
+
+.reuse-panel{
+  border-radius:var(--radius-card);
+  background:var(--panel-soft);
+  border:1px solid #e8e8ed;
+  gap:10px;
+  padding:14px;
+  display:grid;
+}
+.reuse-panel h3{margin-bottom:0;font-size:15px}
+.reuse-panel p{color:var(--muted);margin:0;line-height:1.5}
+
+.ghost-button{
+  border-radius:var(--radius-control);
+  border:1px solid var(--brand-strong);
+  color:var(--brand-strong);
+  background:#fff;
+  width:fit-content;
+  min-height:36px;
+  padding:0 15px;
+  font-size:14px;
+  font-weight:600;
+  transition:background-color .16s;
+}
+.ghost-button:hover{background:#e8f2ff}
+
+.drawer-note{color:var(--muted);margin:0;font-size:14px;line-height:1.45}
+
+.empty-state{
   border:1px dashed var(--line);
-  border-radius:3px;
-  padding:2.5rem 1.5rem;
+  border-radius:var(--radius-card);
+  color:var(--muted);
   text-align:center;
-  color:var(--ink-2);
-  font-size:.94rem;
+  padding:28px;
 }
+.empty-state h2{color:var(--foreground);margin-bottom:6px;font-size:16px}
+.empty-state p{margin:0;font-size:14px}
 
-footer{border-top:1px solid var(--line);padding:1.5rem 0 3rem;color:var(--ink-3);font-family:var(--mono);font-size:.72rem}
+footer.shell{padding:20px 0 40px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
 
-@media (prefers-reduced-motion:reduce){
-  *{transition:none!important;animation:none!important}
+@media (max-width:960px){
+  .intro,.workspace,.dashboard-grid{grid-template-columns:1fr}
+  .drawer{order:-1;position:static}
+}
+@media (max-width:640px){
+  .shell{width:min(100% - 24px,1180px);padding-top:24px}
+  h1{font-size:40px;line-height:44px}
+  .dashboard-grid{grid-template-columns:1fr}
+  .year-group{grid-template-columns:1fr;gap:8px}
+  .year-group h2{margin-bottom:0;position:static}
+  .detail-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<header class="masthead">
-  <div class="wrap">
-    <h1 class="mark">CM&nbsp;LIBRARY<span> / trustay</span></h1>
-    <p class="masthead__sub">지난 Culture Master가 무엇을 만들었고 무엇을 남겼는지 찾아, 다시 쓰기 위한 대장입니다.</p>
-    <dl class="ledger" id="ledger"></dl>
-  </div>
-</header>
+<main class="shell">
+  <section class="intro">
+    <div>
+      <p class="eyebrow">Culture Master Archive</p>
+      <h1>Culture Master 활동 보드</h1>
+      <p class="lead">지난 Culture Master가 무엇을 만들었고 무엇을 남겼는지 찾아보고, 다시 쓰기 위한 아카이브입니다.</p>
+    </div>
+  </section>
 
-<div class="wrap">
-  <div class="shell">
-    <nav class="spine" aria-label="활동 필터">
-      <p class="spine__head">연도</p>
-      <ul class="spine__list" id="f-year"></ul>
-      <p class="spine__head">유형</p>
-      <ul class="spine__list" id="f-cat"></ul>
-    </nav>
-    <main id="entries" aria-live="polite"></main>
-  </div>
-</div>
+  <section class="status-page" aria-label="CM 활동 현황">
+    <section class="dashboard-panel" aria-label="현황 대시보드">
+      <div class="panel-heading">
+        <h2>현황 대시보드</h2>
+        <p>등록된 CM 활동 데이터를 기준으로 아카이브 현황을 한 번에 봅니다.</p>
+      </div>
+      <div class="dashboard-grid" id="dashboard-grid"></div>
+      <div class="dashboard-breakdown">
+        <span>연도별 현황</span>
+        <div class="mini-tags" id="f-year"></div>
+      </div>
+      <div class="dashboard-breakdown">
+        <span>활동 유형 분포</span>
+        <div class="mini-tags" id="f-cat"></div>
+      </div>
+    </section>
 
-<footer class="wrap">데이터 출처 · data/activities.json — 매월 타운홀 덱에서 자동 갱신</footer>
+    <section class="workspace" aria-label="활동 목록과 상세">
+      <div class="timeline" id="entries"></div>
+      <aside class="drawer" id="drawer" aria-label="선택한 활동 상세"></aside>
+    </section>
+  </section>
+</main>
+
+<footer class="shell">데이터 출처 · data/activities.json — 매월 타운홀 덱에서 자동 갱신</footer>
 
 <script>
-const STATUS_COLOR = {
-  "운영중": "var(--olive)",
-  "일회성": "var(--indigo)",
-  "개선 필요": "var(--amber)",
-  "중단됨": "var(--rust)"
-};
+const STATUS_KEY = s => String(s).replace(/\s+/g, "-");
 
 let DATA = null;
 const filters = { year: null, cat: null };
+let selectedMonth = null;
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
   ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
@@ -269,101 +291,127 @@ function visible() {
     (!filters.cat || a.category === filters.cat));
 }
 
-function who(a) {
-  const names = DATA.config?.showMemberNames ? (a.members || []) : [];
-  if (names.length) return names.join(" · ");
-  const n = a.memberCount ?? (a.members || []).length;
-  return n ? `참여 ${n}명` : "";
-}
-
-function renderLedger() {
+function renderDashboard() {
   const acts = DATA.activities;
-  const live = acts.filter(a => a.status === "운영중").length;
   const people = acts.reduce((s, a) => s + (a.memberCount ?? (a.members || []).length), 0);
   const rows = [
-    ["등록 활동", acts.length],
-    ["운영 중", live],
-    ["누적 참여", people],
-    ["최신 등록", acts[0] ? acts[0].month : "—"]
+    ["전체 활동", acts.length, "연도별 활동 합계와 동일"],
+    ["누적 참여", people, "각 활동 참여 인원의 합"],
+    ["최신 등록월", acts[0] ? acts[0].month : "—", "타임라인 최신 활동 기준"]
   ];
-  document.getElementById("ledger").innerHTML = rows.map(([k, v]) =>
-    `<div><div>${esc(v)}</div><dt>${esc(k)}</dt></div>`).join("");
+  document.getElementById("dashboard-grid").innerHTML = rows.map(([k, v, s]) =>
+    `<div class="dashboard-card"><span>${esc(k)}</span><strong>${esc(v)}</strong><small>${esc(s)}</small></div>`).join("");
+}
+
+function tag(kind, val, label, count) {
+  const on = filters[kind] === val;
+  const text = count == null ? label : `${label} ${count}`;
+  return `<button class="${on ? "active" : ""}" type="button" data-kind="${kind}" data-val="${val ?? ""}">${esc(text)}</button>`;
 }
 
 function renderFilters() {
-  const years = [...new Set(DATA.activities.map(a => a.month.slice(0, 4)))].sort().reverse();
+  const acts = DATA.activities;
+  const years = [...new Set(acts.map(a => a.month.slice(0, 4)))].sort().reverse();
 
   document.getElementById("f-year").innerHTML =
-    [`<li>${chip("year", null, "전체", DATA.activities.length, DATA.activities.length)}</li>`]
-      .concat(years.map(y => {
-        const n = DATA.activities.filter(a => a.month.startsWith(y)).length;
-        return `<li>${chip("year", y, y, n, n)}</li>`;
-      })).join("");
+    [tag("year", null, "전체")].concat(years.map(y => tag("year", y, y))).join("");
 
   document.getElementById("f-cat").innerHTML =
-    [`<li>${chip("cat", null, "전체", DATA.activities.length, 0)}</li>`]
-      .concat(DATA.categories.map(c => {
-        const n = DATA.activities.filter(a => a.category === c).length;
-        return n ? `<li>${chip("cat", c, c, n, 0)}</li>` : "";
-      })).join("");
+    [tag("cat", null, "전체", acts.length)].concat(DATA.categories.map(c => {
+      const n = acts.filter(a => a.category === c).length;
+      return n ? tag("cat", c, c, n) : "";
+    })).join("");
 }
 
-function chip(kind, val, label, count, ticks) {
-  const on = filters[kind] === val;
-  const t = ticks ? `<span class="ticks">${"<i></i>".repeat(Math.min(ticks, 6))}</span>` : "";
-  return `<button class="chip" aria-pressed="${on}" data-kind="${kind}" data-val="${val ?? ""}">
-    <span class="chip__label">${esc(label)}</span>${t}<span class="chip__n">${count}</span></button>`;
-}
-
-function renderEntries() {
+function renderTimeline() {
   const acts = visible();
   const host = document.getElementById("entries");
 
   if (!acts.length) {
-    host.innerHTML = `<div class="empty">조건에 맞는 활동이 없습니다. 필터를 바꿔 보세요.</div>`;
+    host.innerHTML = `<div class="empty-state"><h2>조건에 맞는 활동이 없습니다.</h2><p>필터를 바꿔 보세요.</p></div>`;
     return;
   }
+  if (!acts.some(a => a.month === selectedMonth)) selectedMonth = acts[0].month;
 
   const byYear = {};
   acts.forEach(a => (byYear[a.month.slice(0, 4)] ??= []).push(a));
 
   host.innerHTML = Object.keys(byYear).sort().reverse().map(y => `
-    <section>
-      <div class="year"><h2>${y}</h2><hr></div>
-      <ul class="stack">${byYear[y].map(card).join("")}</ul>
-    </section>`).join("");
+    <div class="year-group">
+      <h2>${y}</h2>
+      <div class="items">${byYear[y].map(card).join("")}</div>
+    </div>`).join("");
 }
 
 function card(a) {
-  const c = STATUS_COLOR[a.status] || "var(--ink-3)";
-  const w = who(a);
-  return `<li class="entry" style="--st:${c}">
-    <p class="entry__call">
-      <span>CM·${esc(a.month)}</span>
-      <span>${esc(a.category)}</span>
-      <span class="entry__status">${esc(a.status)}</span>
-    </p>
-    <h3 class="entry__title">${esc(a.title)}</h3>
-    <p class="entry__purpose">${esc(a.purpose)}</p>
-    ${w ? `<p class="entry__who">${esc(w)}</p>` : ""}
-    <button class="entry__toggle" data-month="${esc(a.month)}">자세히 보기</button>
-    <div class="detail" hidden>${detail(a)}</div>
-  </li>`;
+  const selected = a.month === selectedMonth;
+  return `<article class="activity-card${selected ? " selected" : ""}">
+    <button class="card-main" type="button" data-month="${esc(a.month)}">
+      <span class="period">${esc(a.month)}</span>
+      <span class="card-title">${esc(a.title)}</span>
+      <span class="card-summary">${esc(a.purpose)}</span>
+      <span class="card-meta">
+        <span class="type-chip">${esc(a.category)}</span>
+        <span class="status-badge state-${STATUS_KEY(a.status)}">${esc(a.status)}</span>
+      </span>
+    </button>
+  </article>`;
 }
 
-function detail(a) {
-  let h = "";
-  if (a.background?.length)
-    h += `<h4>해결하려던 문제</h4><ul>${a.background.map(b => `<li>${esc(b)}</li>`).join("")}</ul>`;
-  if (a.usage) h += `<h4>사용 방법</h4><p>${esc(a.usage)}</p>`;
-  if (a.retrospective) h += `<h4>인수인계 메모</h4><p>${esc(a.retrospective)}</p>`;
-  if (a.resources?.length)
-    h += `<h4>자료</h4><ul>${a.resources.map(r => r.url
-      ? `<li><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.label)}</a></li>`
-      : `<li>${esc(r.label)}</li>`).join("")}</ul>`;
-  if (a.source) h += `<h4>출처</h4><p>${esc(a.source.title)} · 슬라이드 ${esc(a.source.slides)}</p>`;
-  if (!h) h = `<p>상세 기록이 아직 없습니다. 타운홀 자료에서 보완할 수 있습니다.</p>`;
-  return h + `<button class="reuse" data-month="${esc(a.month)}">이 활동으로 초안 복사</button>`;
+function renderDrawer() {
+  const host = document.getElementById("drawer");
+  const a = DATA.activities.find(x => x.month === selectedMonth);
+
+  if (!a) {
+    host.innerHTML = `<div class="empty-state"><h2>활동을 선택해 주세요.</h2><p>목록에서 활동을 클릭하면 상세 내용을 볼 수 있습니다.</p></div>`;
+    return;
+  }
+
+  let membersHtml = "";
+  if (DATA.config?.showMemberNames && a.members?.length) {
+    membersHtml = `<div class="member-strip">${a.members.map(m => `<span class="member-pill">${esc(m)}</span>`).join("")}</div>`;
+  }
+
+  const problemHtml = a.background?.length
+    ? `<div class="problem-card"><h3>해결하려던 문제</h3><ul>${a.background.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>`
+    : "";
+
+  let detailCells = "";
+  if (a.usage) detailCells += `<div><span>사용방법</span><strong>${esc(a.usage)}</strong></div>`;
+  if (a.retrospective) detailCells += `<div><span>회고</span><strong>${esc(a.retrospective)}</strong></div>`;
+  const detailHtml = detailCells ? `<div class="detail-grid">${detailCells}</div>` : "";
+
+  let linksHtml = "";
+  if (a.resources?.length || a.source) {
+    const resItems = (a.resources || []).map(r => r.url
+      ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.label)}</a>`
+      : `<span class="reference-item">${esc(r.label)}</span>`).join("");
+    const sourceItem = a.source
+      ? `<span class="reference-item">${esc(a.source.title)} · 슬라이드 ${esc(a.source.slides)}</span>`
+      : "";
+    linksHtml = `<div class="link-list"><h3>자료</h3>${resItems}${sourceItem}</div>`;
+  }
+
+  const hasRecord = a.usage || a.retrospective || a.background?.length || a.resources?.length || a.source;
+  const noRecord = hasRecord ? "" : `<p class="drawer-note">상세 기록이 아직 없습니다. 타운홀 자료에서 보완할 수 있습니다.</p>`;
+
+  host.innerHTML = `
+    <div class="drawer-head"><div><span class="period">${esc(a.month)}</span><h2>${esc(a.title)}</h2></div></div>
+    <div class="chip-row">
+      <span class="type-chip">${esc(a.category)}</span>
+      <span class="status-badge state-${STATUS_KEY(a.status)}">${esc(a.status)}</span>
+    </div>
+    <p class="drawer-summary">${esc(a.purpose)}</p>
+    ${membersHtml}
+    ${problemHtml}
+    ${detailHtml}
+    ${linksHtml}
+    ${noRecord}
+    <div class="reuse-panel">
+      <h3>재사용</h3>
+      <p>이 활동의 목적과 회고를 새 활동 초안으로 복사합니다.</p>
+      <button class="ghost-button" type="button" data-month="${esc(a.month)}">이 활동으로 초안 복사</button>
+    </div>`;
 }
 
 function draft(a) {
@@ -390,34 +438,34 @@ function draft(a) {
 }
 
 document.addEventListener("click", async e => {
-  const chipBtn = e.target.closest(".chip");
-  if (chipBtn) {
-    const { kind, val } = chipBtn.dataset;
+  const filterBtn = e.target.closest("#f-year button, #f-cat button");
+  if (filterBtn) {
+    const { kind, val } = filterBtn.dataset;
     filters[kind] = val || null;
     renderFilters();
-    renderEntries();
+    renderTimeline();
+    renderDrawer();
     return;
   }
 
-  const toggle = e.target.closest(".entry__toggle");
-  if (toggle) {
-    const d = toggle.nextElementSibling;
-    const open = d.hidden;
-    d.hidden = !open;
-    toggle.textContent = open ? "접기" : "자세히 보기";
+  const cardBtn = e.target.closest(".card-main");
+  if (cardBtn) {
+    selectedMonth = cardBtn.dataset.month;
+    renderTimeline();
+    renderDrawer();
     return;
   }
 
-  const reuse = e.target.closest(".reuse");
-  if (reuse) {
-    const a = DATA.activities.find(x => x.month === reuse.dataset.month);
+  const reuseBtn = e.target.closest(".reuse-panel button");
+  if (reuseBtn) {
+    const a = DATA.activities.find(x => x.month === reuseBtn.dataset.month);
     try {
       await navigator.clipboard.writeText(draft(a));
-      reuse.textContent = "초안이 복사되었습니다";
+      reuseBtn.textContent = "초안이 복사되었습니다";
     } catch {
-      reuse.textContent = "복사할 수 없습니다 — 직접 선택해 주세요";
+      reuseBtn.textContent = "복사할 수 없습니다 — 직접 선택해 주세요";
     }
-    setTimeout(() => { reuse.textContent = "이 활동으로 초안 복사"; }, 2400);
+    setTimeout(() => { reuseBtn.textContent = "이 활동으로 초안 복사"; }, 2400);
   }
 });
 
@@ -426,13 +474,16 @@ fetch("data/activities.json", { cache: "no-cache" })
   .then(d => {
     DATA = d;
     DATA.activities.sort((a, b) => b.month.localeCompare(a.month));
-    renderLedger();
+    selectedMonth = DATA.activities[0] ? DATA.activities[0].month : null;
+    renderDashboard();
     renderFilters();
-    renderEntries();
+    renderTimeline();
+    renderDrawer();
   })
   .catch(() => {
     document.getElementById("entries").innerHTML =
-      `<div class="empty">활동 데이터를 불러오지 못했습니다. data/activities.json 경로를 확인해 주세요.</div>`;
+      `<div class="empty-state"><h2>활동 데이터를 불러오지 못했습니다.</h2><p>data/activities.json 경로를 확인해 주세요.</p></div>`;
+    document.getElementById("drawer").innerHTML = "";
   });
 </script>
 </body>
