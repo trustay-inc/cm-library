@@ -17,7 +17,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
   id-token: write            # Workload Identity Federation에 필요
 
 jobs:
@@ -71,24 +70,69 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/summarize_to_json.py --block build/cm_block.json
 
-      # 자동 커밋이 아니라 PR을 연다. 사람이 diff를 한 번 보고 Merge한다.
-      # 요약이 범위를 잘못 잡았을 때 public 사이트에 그대로 나가는 걸 막는 마지막 관문이다.
-      - name: 검토용 PR 생성
+      # 자동 커밋이 아니라 브랜치만 push한다. 조직 정책상 GitHub Actions가
+      # PR을 직접 여는 게 막혀 있어서(트러스테이 조직 설정), "PR 열기"는
+      # 아래 Slack 알림의 링크를 사람이 클릭해서 한다. 사람이 diff를 한 번
+      # 보고 Merge하게 만드는 마지막 관문이라는 목적은 그대로 유지된다.
+      - name: 브랜치 push
         if: steps.summarize.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: cm-library/${{ steps.summarize.outputs.month }}
-          title: "CM Library: ${{ steps.summarize.outputs.month }} 활동 추가"
-          body: |
-            타운홀 덱에서 자동 추출한 ${{ steps.summarize.outputs.month }} CM 활동입니다.
+        run: |
+          BRANCH="cm-library/${{ steps.summarize.outputs.month }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add data/activities.json
+          git commit -m "CM Library: ${{ steps.summarize.outputs.month }} 추가"
+          git push -f origin "$BRANCH"
 
-            **Merge 전에 확인해 주세요**
-            - [ ] 목적과 회고가 실제 발표 내용과 맞는지
-            - [ ] 참여자 이름이 정확한지
-            - [ ] CM과 무관한 내용(사업 지표, 인사 정보)이 섞이지 않았는지
-            - [ ] public 사이트에 나가도 되는 내용인지
-          commit-message: "CM Library: ${{ steps.summarize.outputs.month }} 추가"
-          delete-branch: true
+      # PR 생성 API를 못 쓰니, compare 페이지 링크(제목/본문을 쿼리 파라미터로
+      # 미리 채워둠)를 Slack으로 보낸다. 링크를 열고 "Create pull request"만
+      # 누르면 된다.
+      - name: Slack 알림
+        if: steps.summarize.outputs.changed == 'true'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          MONTH: ${{ steps.summarize.outputs.month }}
+          REPO: ${{ github.repository }}
+        run: |
+          python3 - <<'PYEOF'
+          import json
+          import os
+          import sys
+          import urllib.parse
+          import urllib.request
+
+          if not os.environ.get("SLACK_WEBHOOK_URL"):
+              print("SLACK_WEBHOOK_URL 시크릿이 없다 — 알림을 건너뛴다. "
+                    "브랜치는 이미 push됐으니 데이터는 안전하다.")
+              sys.exit(0)
+
+          month = os.environ["MONTH"]
+          branch = f"cm-library/{month}"
+          title = f"CM Library: {month} 활동 추가"
+          body = (
+              f"타운홀 덱에서 자동 추출한 {month} CM 활동입니다.\n\n"
+              "**Merge 전에 확인해 주세요**\n"
+              "- [ ] 목적과 회고가 실제 발표 내용과 맞는지\n"
+              "- [ ] 참여자 이름이 정확한지\n"
+              "- [ ] CM과 무관한 내용(사업 지표, 인사 정보)이 섞이지 않았는지\n"
+              "- [ ] public 사이트에 나가도 되는 내용인지"
+          )
+          query = urllib.parse.urlencode({"quick_pull": "1", "title": title, "body": body})
+          pr_url = f"https://github.com/{os.environ['REPO']}/compare/main...{branch}?{query}"
+
+          text = (
+              f"🆕 CM Library: {month} 활동 발견\n"
+              "조직 정책상 Actions가 PR을 못 열어서 링크로 대신 보냅니다 — "
+              f"열어서 diff 확인 후 PR 만들어주세요.\n{pr_url}"
+          )
+          req = urllib.request.Request(
+              os.environ["SLACK_WEBHOOK_URL"],
+              data=json.dumps({"text": text}).encode(),
+              headers={"Content-Type": "application/json"},
+          )
+          urllib.request.urlopen(req)
+          PYEOF
 
   deploy:
     needs: update

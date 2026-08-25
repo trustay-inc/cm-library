@@ -16,8 +16,8 @@ GCP나 인프라 관련 안내는 단계를 건너뛰지 말 것.
   → Drive 폴더에서 최신 타운홀 덱 찾기        (extract_cm_block.py)
   → Slides 텍스트에서 CM 블록만 잘라내기      (코드, 결정론적)
   → 잘린 블록만 요약해 JSON 항목 만들기       (summarize_to_json.py, Gemini API)
-  → data/activities.json 병합 후 PR 열기
-  → 사람이 diff 확인 후 Merge → Pages 배포
+  → data/activities.json 병합해 브랜치 push → Slack 알림
+  → 사람이 링크 클릭해 PR 생성 → diff 확인 후 Merge → Pages 배포
 ```
 
 ## 반드시 유지해야 하는 설계 결정
@@ -53,6 +53,25 @@ GCP나 인프라 관련 안내는 단계를 건너뛰지 말 것.
 실명 외 민감 정보가 제거된 상태라 감수 가능하다고 판단했다. `GEMINI_API_KEY`
 시크릿, `google-genai` SDK, `response_schema`로 구조 강제 — 그래도 enum은
 파싱 후 코드로 다시 검증한다(설계 결정 4번과 같은 이유).
+
+**6. PR은 Actions가 못 연다. Slack 알림 + 사람이 클릭해서 연다. (2026-08-25 결정)**
+`trustay-inc` 조직 정책이 "GitHub Actions가 PR을 직접 생성/승인하는 것"을
+막아뒀다(조직 전체 설정, repo 단위로 못 풂 — 시도했다가 409 `Write permissions
+for workflows are disabled by the organization` 받음). 대안을 세 가지 검토했다:
+- **조직 정책 변경 요청**: 조직 전체 보안 설정을 건드리는 큰 부탁이라 보류.
+- **Fine-grained PAT**: 최대 1년마다 갱신해야 하고(만료 없음 옵션이 없음),
+  이 조직은 조직 소유 저장소에 대한 PAT 접근도 관리자 승인이 필요할 가능성이 큼
+  ("Generate token and **request access**" 문구로 확인 가능). 반복 갱신이
+  귀찮아서 보류.
+- **GitHub App**: PAT보다 나음(설치 후엔 갱신 불필요, private key는 만료 없음)
+  이지만, 이 조직은 멤버의 앱 설치 요청 자체를 막아뒀다(Install 페이지에
+  조직이 선택지에 안 뜸 — 관리자 계정으로만 설치 가능). 관리자에게 "이 앱
+  하나만 설치해달라"는 가벼운 부탁이면 되지만, 그 부탁조차 안 하기로 함.
+
+그래서 **워크플로우는 브랜치 push까지만 하고, Slack Incoming Webhook으로
+compare 링크(제목/본문 쿼리 파라미터로 미리 채움)를 보낸다.** 사람이 그 링크를
+열고 "Create pull request"만 누르면 된다 — 리뷰 관문(설계 결정 없음 목록에는
+안 적었지만 실질적 안전장치)은 그대로 유지된다. `SLACK_WEBHOOK_URL` 시크릿 필요.
 
 ## 확인된 사실
 
@@ -138,10 +157,23 @@ python3 scripts/extract_cm_block.py --audit
       삭제함 — 워크플로우가 더 이상 참조하지 않는다.
       ⚠️ 로컬에서 dry-run 테스트하며 실제 키 값이 대화창에 평문으로 노출됐다.
       사용자가 재발급은 하지 않기로 결정함(2026-08-25) — 위험을 인지한 상태.
-- [ ] Settings → Pages → Source를 GitHub Actions로
-- [ ] GitHub Actions 실전 테스트 (`workflow_dispatch`) — WIF+Drive+Gemini+PR 생성까지
-      한 번에 검증하는 건 아직 안 함. 로컬 dry-run(추출+Gemini 요약)까지만 확인됨
-      (2025.08 블록으로 테스트, 정상 동작).
+- [x] Settings → Pages → Source를 GitHub Actions로 — 완료 (2026-08-25).
+      `https://trustay-inc.github.io/cm-library/` 배포 확인됨 (HTTP 200).
+- [x] GitHub Actions 실전 테스트 — 완료 (2026-08-25). `workflow_dispatch`로
+      2025.08/2025.05/2025.04 세 달을 처리해 WIF 인증, Drive/Slides 추출,
+      Gemini 요약까지 CI에서 정상 동작 확인. PR 생성만 조직 정책에 막혀서
+      (아래 설계 결정 6번) 수동으로 열었다 — PR #1, #2, #3.
+      - PR #2(2025.05)는 원본 슬라이드 자체의 월 표기 오류(6월로 적혀있음)와
+        스키마 불일치(한 달에 활동 3개가 뭉쳐 들어감)가 있어서 리뷰 필요 표시함.
+      - Gemini가 503(서버 과부하)로 한 번 실패했었다 — 재시도로 해결됨. 일시적
+        오류이니 재시도 로직 추가할 필요는 아직 없어 보임(관찰 필요).
+- [ ] `SLACK_WEBHOOK_URL` 시크릿 등록 — 아직 안 함 (설계 결정 6번). Slack에서
+      Incoming Webhook 만들어서 `gh secret set SLACK_WEBHOOK_URL --repo
+      trustay-inc/cm-library`로 등록할 것. 등록 전까지는 새 활동을 찾아도
+      브랜치만 push되고 알림은 안 간다 — Slack 알림 스텝이 시크릿 없으면
+      바로 종료하도록 가드를 넣어놔서 실패로 뜨지도 않는다(브랜치는 이미
+      push됐으니 데이터 유실은 아님). 등록 후 한 번 `workflow_dispatch`로
+      실제로 알림이 오는지 확인할 것.
 - [ ] 2026.06 이하 7개 활동 상세 백필 (지금은 목적과 참여 인원만 있음)
 - [ ] 실명 공개 여부 최종 결정
 
