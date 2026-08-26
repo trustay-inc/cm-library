@@ -1,6 +1,10 @@
 credentials/
 build/
 
+# google-github-actions/auth가 워크스페이스 루트에 남기는 단기 WIF 토큰 파일.
+# CI든 로컬 dry-run이든 절대 커밋되면 안 된다 (2026-08-26 유출 사고, history rewrite로 제거).
+gha-creds-*.json
+
 __pycache__/
 *.pyc
 .venv/
