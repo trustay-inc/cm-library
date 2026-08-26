@@ -41,7 +41,7 @@
       "resources": [
         {
           "label": "타운홀미팅 (2026.07)",
-          "url": null
+          "url": "https://docs.google.com/presentation/d/1WFqF5atk5dV-ck5wdpiCYIyq8h_zK7neiTeOXtZF0Bs/edit?usp=drive_web"
         },
         {
           "label": "#_anything Catch up",
@@ -63,12 +63,29 @@
       "purpose": "경조사 공유와 신청 흐름을 Slack 안에서 간단히 처리한다.",
       "category": "사내도구",
       "status": "운영중",
-      "members": [],
-      "memberCount": 2,
+      "members": [
+        "배영기",
+        "이지영",
+        "정성은"
+      ],
+      "memberCount": 3,
       "background": [],
-      "usage": null,
+      "usage": "#_anything 채널 참여 후 Slack 워크플로우로 경조사를 신청한다.",
       "retrospective": null,
-      "resources": [],
+      "resources": [
+        {
+          "label": "타운홀미팅 (2026.06)",
+          "url": "https://docs.google.com/presentation/d/1CPBCEN8vQK2hXoa-46OBAoowWPGPUIuZQNwIQGxYfKI/edit?usp=drive_web"
+        },
+        {
+          "label": "#_anything",
+          "url": "https://trustayin.slack.com/archives/C07LW4W5R0F"
+        },
+        {
+          "label": "경조사 신청 워크플로우",
+          "url": "https://slack.com/shortcuts/Ft0BCG1840KB/06f338e03d2a2d552b3e0e245d4ec90c"
+        }
+      ],
       "source": null
     },
     {
@@ -77,12 +94,69 @@
       "purpose": "점심 선택 피로를 줄이고 부담 없는 구성원 간 만남을 만든다.",
       "category": "사내도구",
       "status": "운영중",
-      "members": [],
+      "members": [
+        "박태준",
+        "이다인",
+        "박장원"
+      ],
       "memberCount": 3,
       "background": [],
-      "usage": null,
+      "usage": "Slack 어디서든 \"오늘뭐먹지\" 또는 \"커피 한 잔 할래요\"를 입력하거나 nockmate 웹앱에 접속한다.",
       "retrospective": null,
-      "resources": [],
+      "resources": [
+        {
+          "label": "타운홀미팅 (2026.05)",
+          "url": "https://docs.google.com/presentation/d/1fuabuyhWeStFjGnDygPtqf_HMuWRJ385JrNkQgUjsDY/edit?usp=drive_web"
+        },
+        {
+          "label": "nockmate",
+          "url": "https://nockmate.netlify.app/"
+        }
+      ],
+      "source": null
+    },
+    {
+      "title": "멤버소개 봇",
+      "purpose": "새로운 구성원을 짧게 소개해 서로를 더 빠르게 알아가게 한다.",
+      "category": "사내도구",
+      "status": "중단됨",
+      "members": [
+        "이윤창",
+        "맹유빈",
+        "박지현"
+      ],
+      "background": [],
+      "usage": null,
+      "retrospective": "이후 '오늘 뭐 먹지? & CoffeeChat 봇'(2026.05)으로 담당 팀이 바뀌며 발전했다.",
+      "resources": [
+        {
+          "label": "타운홀미팅 (2026.05)",
+          "url": "https://docs.google.com/presentation/d/1fuabuyhWeStFjGnDygPtqf_HMuWRJ385JrNkQgUjsDY/edit?slide=id.g38306acc5c7_0_9#slide=id.g38306acc5c7_0_9"
+        }
+      ],
+      "month": "2026.04",
+      "source": null
+    },
+    {
+      "title": "팀보드 구축",
+      "purpose": "팀별로 정보를 직접 수정할 수 있는 온라인 팀보드를 만들어 팀 정보 최신화를 쉽게 한다.",
+      "category": "사내도구",
+      "status": "중단됨",
+      "members": [
+        "신동욱",
+        "유대형",
+        "이정민"
+      ],
+      "background": [],
+      "usage": null,
+      "retrospective": "현재 온라인 팀보드에 접근이 불가능한 상태다. 같은 시기 진행한 청소 캠페인은 2026.03 항목에서 볼 수 있다.",
+      "resources": [
+        {
+          "label": "타운홀미팅 (2026.03)",
+          "url": "https://docs.google.com/presentation/d/11IqhveA4TJ1JA_FolPm0rMEdLbgeNkh9qBA4sKt6N6k/edit?usp=drive_web"
+        }
+      ],
+      "month": "2026.02",
       "source": null
     },
     {
@@ -91,12 +165,21 @@
       "purpose": "사무실 환경 정돈을 반복 가능한 작은 문화로 만든다.",
       "category": "오피스문화",
       "status": "운영중",
-      "members": [],
-      "memberCount": 2,
+      "members": [
+        "나민주",
+        "정진원",
+        "정찬성"
+      ],
+      "memberCount": 3,
       "background": [],
-      "usage": null,
+      "usage": "매주 금요일 점심시간 20분 전 Slack 알림을 보고 자리와 공용공간을 정돈한다.",
       "retrospective": null,
-      "resources": [],
+      "resources": [
+        {
+          "label": "타운홀미팅 (2026.03)",
+          "url": "https://docs.google.com/presentation/d/11IqhveA4TJ1JA_FolPm0rMEdLbgeNkh9qBA4sKt6N6k/edit?usp=drive_web"
+        }
+      ],
       "source": null
     },
     {
@@ -105,12 +188,26 @@
       "purpose": "한 해를 함께 마무리하고 구성원의 참여감을 높인다.",
       "category": "행사",
       "status": "일회성",
-      "members": [],
+      "members": [
+        "장왕수",
+        "이정현",
+        "김동균",
+        "김승아"
+      ],
       "memberCount": 4,
       "background": [],
-      "usage": null,
+      "usage": "연극 단체 관람(90분), 2025년 회고, CEO 송년사, 시상식, 럭키드로우 순으로 진행한다.",
       "retrospective": null,
-      "resources": [],
+      "resources": [
+        {
+          "label": "타운홀미팅 (2025.11)",
+          "url": "https://docs.google.com/presentation/d/1GAC4nggWupaJzaei2ndp0rV4Y6iobF_65TdqXwb2Wec/edit?usp=drive_web"
+        },
+        {
+          "label": "공연 정보 · 프리즌 (대학로 에이치씨어터)",
+          "url": "https://naver.me/5IS9dePx"
+        }
+      ],
       "source": null
     },
     {
@@ -119,12 +216,25 @@
       "purpose": "점심 장소 탐색과 메뉴 결정을 더 쉽고 재미있게 만든다.",
       "category": "사내도구",
       "status": "운영중",
-      "members": [],
-      "memberCount": 2,
+      "members": [
+        "문정현",
+        "김대희",
+        "임병채"
+      ],
+      "memberCount": 3,
       "background": [],
-      "usage": null,
-      "retrospective": null,
-      "resources": [],
+      "usage": "Slack 채널 참여 후 /lunch 기능을 이용한다.",
+      "retrospective": "나민주가 구축을 도왔다.",
+      "resources": [
+        {
+          "label": "타운홀미팅 (2025.10)",
+          "url": "https://docs.google.com/presentation/d/1Txf49lGjDOeLlOLUoPcbIbqONBH2edBrWcL_sO2VpL4/edit?usp=drive_web"
+        },
+        {
+          "label": "#lunch-together",
+          "url": "https://trustayin.slack.com/archives/C09PTH9J77E"
+        }
+      ],
       "source": null
     },
     {
@@ -133,33 +243,79 @@
       "purpose": "신규 입사자도 각 구성원이 하는 일을 Slack에서 충분히 알 수 있게 한다.",
       "category": "커뮤니케이션",
       "status": "개선 필요",
-      "members": [],
-      "memberCount": 2,
+      "members": [
+        "김혜지",
+        "도진호",
+        "박형준"
+      ],
+      "memberCount": 3,
       "background": [],
-      "usage": null,
-      "retrospective": null,
-      "resources": [],
+      "usage": "팀명과 파트명을 함께 표기한다(예: 도진호 / Client개발팀 / FE파트). 파트가 없으면 팀명만 표기하고, Slack 태깅 시에는 이름만 노출되도록 정리한다.",
+      "retrospective": "표준은 만들었지만 개인별 유지 관리가 필요하다.",
+      "resources": [
+        {
+          "label": "타운홀미팅 (2025.09)",
+          "url": "https://docs.google.com/presentation/d/1NWbx3qTnJUXswPnioqix7IdsF3yuiobBdMVxxDP0qCM/edit?usp=drive_web"
+        }
+      ],
       "source": null
     },
     {
-      "title": "1분기 최우수 MVP 사원 표창",
-      "purpose": "모범적인 동료의 노고와 기여를 인정하고 격려하여 긍정적인 사내 문화를 조성하기 위함.",
-      "category": "오피스문화",
-      "status": "운영중",
-      "members": [],
+      "title": "사내 제1회 볼링대회",
+      "purpose": "구성원들이 함께 볼링을 즐기며 자연스럽게 교류하고 친밀감을 쌓는다.",
+      "category": "행사",
+      "status": "일회성",
+      "members": [
+        "김주형",
+        "김승아",
+        "김성경",
+        "김지한",
+        "정찬성",
+        "문희재"
+      ],
       "background": [],
-      "usage": "구성원들은 투표를 통해 동료의 노고를 인정하고, 수상자는 사내에서 공식적으로 표창받아 격려받는다.",
+      "usage": null,
       "retrospective": null,
-      "resources": [],
+      "resources": [
+        {
+          "label": "타운홀미팅 (2025.04)",
+          "url": "https://docs.google.com/presentation/d/1aGq4WZxSHJbugSc-oJ4AptnK1qegvwoM65PUudEzTiU/edit?slide=id.g35d72cf9cb6_0_12#slide=id.g35d72cf9cb6_0_12"
+        }
+      ],
       "month": "2025.04",
-      "source": {
-        "title": "트러스테이 타운홀미팅(2025.04)",
-        "slides": "2-8"
-      }
+      "source": null
     },
     {
-      "title": "CM 활동 보고서",
-      "purpose": "사내 문화 활동을 기록하고 보고하기 위함",
+      "title": "트러스테이 자기소개 개편 & 취미동아리 채널 개설",
+      "purpose": "자기소개를 새로 정리하고 취미동아리 채널을 열어 구성원 간 교류를 넓힌다.",
+      "category": "관계형성",
+      "status": "운영중",
+      "members": [
+        "권휘욱",
+        "김대희",
+        "김유리",
+        "전하영",
+        "한연심"
+      ],
+      "background": [],
+      "usage": "Slack #_anything 채널 상단의 \"트러스테이 동아리 소개\" 책갈피를 이용한다.",
+      "retrospective": null,
+      "resources": [
+        {
+          "label": "타운홀미팅 (2025.03)",
+          "url": "https://docs.google.com/presentation/d/1lMcbhss2cmYIgxniPdW5qjn1GiZxp8YjXd4aFFwLIn8/edit?slide=id.p29#slide=id.p29"
+        },
+        {
+          "label": "#_anything 동아리 소개 게시물",
+          "url": "https://trustayin.slack.com/archives/C07LW4W5R0F/p1743480901004419"
+        }
+      ],
+      "month": "2025.03",
+      "source": null
+    },
+    {
+      "title": "프로필 사진 촬영 지원 & 기술블로그 개설 기획 & 리프레시 체조 도입",
+      "purpose": "사진, 글쓰기, 짧은 체조 등 여러 리프레시 활동으로 오피스 안에 작은 문화를 늘린다.",
       "category": "오피스문화",
       "status": "운영중",
       "members": [
@@ -170,27 +326,16 @@
         "김광민"
       ],
       "background": [],
-      "usage": null,
+      "usage": "프로필 사진 촬영은 사내 오피스에서 지원하고, 기술블로그와 5분 단체체조는 기획·도입 단계다.",
       "retrospective": null,
       "resources": [
         {
-          "label": "프로필 사진 촬영",
-          "url": null
-        },
-        {
-          "label": "기술블로그 개설",
-          "url": null
-        },
-        {
-          "label": "5분 단체체조",
-          "url": null
+          "label": "타운홀미팅 (2025.05)",
+          "url": "https://docs.google.com/presentation/d/1TDYuKwV7szk09BR_-ZGgiv4E_-NBqQU_qt4HeCX8hwE/edit?usp=drive_web"
         }
       ],
       "month": "2025.05",
-      "source": {
-        "title": "트러스테이 타운홀미팅(2025.05)",
-        "slides": "12-15"
-      }
+      "source": null
     },
     {
       "title": "놐놐, 누구세요?",
@@ -208,7 +353,12 @@
       ],
       "usage": "구성원들이 사무실에 전시된 시각화된 조직도를 통해 서로의 소속과 이름을 파악한다.",
       "retrospective": null,
-      "resources": [],
+      "resources": [
+        {
+          "label": "타운홀미팅 (2025.08)",
+          "url": "https://docs.google.com/presentation/d/14MN1lI8-ee2BVabLDriRsnDj41DzDWLnOspm4dTspA4/edit?usp=drive_web"
+        }
+      ],
       "month": "2025.08",
       "source": {
         "title": "트러스테이 타운홀미팅(2025.08)",
@@ -216,17 +366,68 @@
       }
     },
     {
+      "title": "사무실 환경 개선 캠페인",
+      "purpose": "작은 실천으로 쾌적한 사무실을 만들고 일상 속 환경 개선 문화를 정착시킨다.",
+      "category": "오피스문화",
+      "status": "일회성",
+      "members": [
+        "박한림"
+      ],
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [
+        {
+          "label": "타운홀미팅 (2024.11)",
+          "url": "https://docs.google.com/presentation/d/1g0muK6GEp1XD96N-Sa3u3qhICMRgv0Rs/edit?slide=id.p60#slide=id.p60"
+        }
+      ],
+      "month": "2024.11",
+      "source": null
+    },
+    {
+      "title": "공식 메일 서명 가이드 제작 및 배포",
+      "purpose": "전사에 통일된 메일 서명 형식을 배포해 적용을 독려한다.",
+      "category": "커뮤니케이션",
+      "status": "일회성",
+      "members": [
+        "김시진"
+      ],
+      "background": [],
+      "usage": null,
+      "retrospective": null,
+      "resources": [
+        {
+          "label": "이메일 공유 자사 파일 (링크 없음)",
+          "url": null
+        }
+      ],
+      "month": "2024.10",
+      "source": null
+    },
+    {
       "month": "2024.06",
       "title": "랜덤런치 V.2 & 그라운드룰 알리미 V.1",
       "purpose": "서로 다른 팀의 구성원이 점심을 통해 자연스럽게 만난다.",
       "category": "관계형성",
       "status": "중단됨",
-      "members": [],
-      "memberCount": 3,
+      "members": [
+        "김수해",
+        "장재형",
+        "도진호",
+        "조영권",
+        "김명환"
+      ],
+      "memberCount": 5,
       "background": [],
-      "usage": null,
+      "usage": "한 달에 한 번 마지막 목요일에 랜덤으로 2팀을 묶어 점심 식대를 제공한다.",
       "retrospective": null,
-      "resources": [],
+      "resources": [
+        {
+          "label": "타운홀미팅 (2024.06)",
+          "url": "https://docs.google.com/presentation/d/1R_dSqDd4QHy4MOv_KC61U5xsE9EU9drq/edit?slide=id.p44#slide=id.p44"
+        }
+      ],
       "source": null
     }
   ]
