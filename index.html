@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Culture Master 활동 보드 · 트러스테이 문화 자산 아카이브</title>
+<title>CM Library</title>
 <meta name="description" content="Culture Master 활동을 찾아서 다시 쓰기 위한 사내 아카이브.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -45,7 +45,7 @@ img,svg{display:block;max-width:100%}
 .intro{justify-content:space-between;align-items:center;gap:32px;padding-bottom:34px;display:flex;flex-wrap:wrap}
 .eyebrow{color:var(--secondary);letter-spacing:0;text-transform:uppercase;margin:0 0 10px;font-size:12px;font-weight:600}
 h1{letter-spacing:0;margin:0 0 10px;font-size:56px;font-weight:600;line-height:60px}
-.lead{max-width:620px;color:var(--muted);margin-bottom:0;font-size:17px;line-height:25px}
+.lead{color:var(--muted);margin-bottom:0;font-size:17px;line-height:25px;word-break:keep-all}
 
 /* ── page layout ──────────────────────────── */
 .status-page{gap:20px;display:grid}
@@ -161,54 +161,14 @@ h1{letter-spacing:0;margin:0 0 10px;font-size:56px;font-weight:600;line-height:6
   display:inline-flex;
 }
 
-.problem-card{
-  border-radius:var(--radius-card);
-  background:var(--panel-soft);
-  border:1px solid #e8e8ed;
-  gap:8px;
-  padding:14px;
-  display:grid;
-}
-.problem-card h3{margin-bottom:2px;font-size:15px}
-.problem-card ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
-.problem-card li{overflow-wrap:anywhere;font-size:13px;line-height:1.45;color:var(--secondary)}
-
-.detail-grid{grid-template-columns:1fr 1fr;gap:10px;display:grid}
-.detail-grid div{border-radius:var(--radius-card);background:var(--panel-soft);border:1px solid #e8e8ed;min-height:84px;padding:14px}
-.detail-grid span{color:var(--muted);margin-bottom:8px;font-size:12px;font-weight:600;display:block}
-.detail-grid strong{overflow-wrap:anywhere;font-size:15px;line-height:1.45}
-
 .link-list{gap:8px;display:grid}
 .link-list h3{margin-bottom:2px;font-size:15px}
+.link-list ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.link-list li{overflow-wrap:anywhere;font-size:13px;line-height:1.45;color:var(--secondary)}
 .link-list a,.link-list p,.reference-item{overflow-wrap:anywhere;color:var(--brand-strong);margin:0;line-height:1.45}
 .link-list a{transition:color .16s,text-decoration-color .16s}
 .link-list a:hover{color:var(--brand);text-underline-offset:3px;text-decoration:underline;text-decoration-thickness:1px}
 .reference-item{color:#495057;display:block}
-
-.reuse-panel{
-  border-radius:var(--radius-card);
-  background:var(--panel-soft);
-  border:1px solid #e8e8ed;
-  gap:10px;
-  padding:14px;
-  display:grid;
-}
-.reuse-panel h3{margin-bottom:0;font-size:15px}
-.reuse-panel p{color:var(--muted);margin:0;line-height:1.5}
-
-.ghost-button{
-  border-radius:var(--radius-control);
-  border:1px solid var(--brand-strong);
-  color:var(--brand-strong);
-  background:#fff;
-  width:fit-content;
-  min-height:36px;
-  padding:0 15px;
-  font-size:14px;
-  font-weight:600;
-  transition:background-color .16s;
-}
-.ghost-button:hover{background:#e8f2ff}
 
 .drawer-note{color:var(--muted);margin:0;font-size:14px;line-height:1.45}
 
@@ -234,7 +194,6 @@ footer.shell{padding:20px 0 40px;border-top:1px solid var(--line);color:var(--mu
   .dashboard-grid{grid-template-columns:1fr}
   .year-group{grid-template-columns:1fr;gap:8px}
   .year-group h2{margin-bottom:0;position:static}
-  .detail-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -244,7 +203,7 @@ footer.shell{padding:20px 0 40px;border-top:1px solid var(--line);color:var(--mu
   <section class="intro">
     <div>
       <p class="eyebrow">Culture Master Archive</p>
-      <h1>Culture Master 활동 보드</h1>
+      <h1>CM Library</h1>
       <p class="lead">지난 Culture Master가 무엇을 만들었고 무엇을 남겼는지 찾아보고, 다시 쓰기 위한 아카이브입니다.</p>
     </div>
   </section>
@@ -373,13 +332,15 @@ function renderDrawer() {
   }
 
   const problemHtml = a.background?.length
-    ? `<div class="problem-card"><h3>해결하려던 문제</h3><ul>${a.background.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>`
+    ? `<div class="link-list"><h3>해결하려던 문제</h3><ul>${a.background.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>`
     : "";
 
-  let detailCells = "";
-  if (a.usage) detailCells += `<div><span>사용방법</span><strong>${esc(a.usage)}</strong></div>`;
-  if (a.retrospective) detailCells += `<div><span>회고</span><strong>${esc(a.retrospective)}</strong></div>`;
-  const detailHtml = detailCells ? `<div class="detail-grid">${detailCells}</div>` : "";
+  const usageHtml = a.usage
+    ? `<div class="link-list"><h3>사용방법</h3><span class="reference-item">${esc(a.usage)}</span></div>`
+    : "";
+  const retroHtml = a.retrospective
+    ? `<div class="link-list"><h3>회고</h3><span class="reference-item">${esc(a.retrospective)}</span></div>`
+    : "";
 
   let linksHtml = "";
   if (a.resources?.length || a.source) {
@@ -404,40 +365,13 @@ function renderDrawer() {
     <p class="drawer-summary">${esc(a.purpose)}</p>
     ${membersHtml}
     ${problemHtml}
-    ${detailHtml}
+    ${usageHtml}
+    ${retroHtml}
     ${linksHtml}
-    ${noRecord}
-    <div class="reuse-panel">
-      <h3>재사용</h3>
-      <p>이 활동의 목적과 회고를 새 활동 초안으로 복사합니다.</p>
-      <button class="ghost-button" type="button" data-month="${esc(a.month)}">이 활동으로 초안 복사</button>
-    </div>`;
+    ${noRecord}`;
 }
 
-function draft(a) {
-  return [
-    `# ${a.title} (재사용 초안)`,
-    ``,
-    `원본: CM·${a.month} / ${a.category}`,
-    ``,
-    `## 목적`,
-    a.purpose,
-    ``,
-    `## 해결하려던 문제`,
-    ...(a.background?.length ? a.background.map(b => `- ${b}`) : ["- (원본에 기록 없음)"]),
-    ``,
-    `## 이번에 달라지는 점`,
-    `- `,
-    ``,
-    `## 이전 담당자 메모`,
-    a.retrospective || "(없음)",
-    ``,
-    `## 성과를 무엇으로 확인할지`,
-    `- `
-  ].join("\n");
-}
-
-document.addEventListener("click", async e => {
+document.addEventListener("click", e => {
   const filterBtn = e.target.closest("#f-year button, #f-cat button");
   if (filterBtn) {
     const { kind, val } = filterBtn.dataset;
@@ -454,18 +388,6 @@ document.addEventListener("click", async e => {
     renderTimeline();
     renderDrawer();
     return;
-  }
-
-  const reuseBtn = e.target.closest(".reuse-panel button");
-  if (reuseBtn) {
-    const a = DATA.activities.find(x => x.month === reuseBtn.dataset.month);
-    try {
-      await navigator.clipboard.writeText(draft(a));
-      reuseBtn.textContent = "초안이 복사되었습니다";
-    } catch {
-      reuseBtn.textContent = "복사할 수 없습니다 — 직접 선택해 주세요";
-    }
-    setTimeout(() => { reuseBtn.textContent = "이 활동으로 초안 복사"; }, 2400);
   }
 });
 
