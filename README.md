@@ -1,16 +1,15 @@
 # CM Library
-## [🗃️ CM Library](https://trustay-inc.github.io/cm-library/)
+**[🗃️ CM Library 바로가기](https://trustay-inc.github.io/cm-library/)**
 매월 진행된 타운홀에서 Culture Master 활동을 정리한 사내 아카이브입니다.
 정적 사이트 + GitHub Actions로만 동작하여 서버가 없습니다. 따라서 내용 수정이 필요한 경우 이 레포지토리의 소스코드를 직접 수정하여 반영해야 합니다.
 
-```
-매주 월요일  Actions
-  → Drive 폴더에서 최신 타운홀 덱 찾기
-  → Slides 텍스트에서 CM 블록만 잘라내기      (코드, 결정론적)
-  → 잘린 블록만 요약해 JSON 항목 만들기        (Gemini API)
-  → activities.json에 병합해 브랜치 push → Slack 알림
-  → 사람이 링크 클릭해 PR 생성 → diff 확인하고 Merge
-  → GitHub Pages 배포
+매주 월요일 아래의 Github Action이 실행됩니다.
+- Drive 폴더에서 최신 타운홀 덱 찾기
+- Slides 텍스트에서 CM 블록만 잘라내기
+- 잘린 블록만 요약해 JSON 항목 만들기 (Gemini API)
+- activities.json에 병합해 브랜치 push → Slack 알림
+- 사람이 링크 클릭해 PR 생성 → diff 확인하고 Merge
+- GitHub Pages 배포
 ```
 
 ## 설계상 중요한 두 가지
