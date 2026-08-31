@@ -1,5 +1,6 @@
 # CM Library
 **[🗃️ CM Library 바로가기](https://trustay-inc.github.io/cm-library/)**
+
 매월 진행된 타운홀에서 Culture Master 활동을 정리한 사내 아카이브입니다.
 정적 사이트 + GitHub Actions로만 동작하여 서버가 없습니다. 따라서 내용 수정이 필요한 경우 이 레포지토리의 소스코드를 직접 수정하여 반영해야 합니다.
 
@@ -10,7 +11,6 @@
 - activities.json에 병합해 브랜치 push → Slack 알림
 - 사람이 링크 클릭해 PR 생성 → diff 확인하고 Merge
 - GitHub Pages 배포
-```
 
 ## 설계상 중요한 두 가지
 
