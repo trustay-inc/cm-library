@@ -4,6 +4,10 @@
 매월 진행된 타운홀에서 Culture Master 활동을 정리한 사내 아카이브입니다.
 정적 사이트 + GitHub Actions로만 동작하여 서버가 없습니다. 따라서 내용 수정이 필요한 경우 이 레포지토리의 소스코드를 직접 수정하여 반영해야 합니다.
 
+CM 발표자 2년 비복원 순환 기능도 함께 제공합니다. 전체 임직원 명부와 유예 사유는
+비공개 Google Sheet에 두고, 공개 사이트에는 최소 정보만 내보냅니다. 운영 방법은
+[`docs/presenter-rotation.md`](docs/presenter-rotation.md)를 참고하세요.
+
 매주 월요일 아래의 Github Action이 실행됩니다.
 - Drive 폴더에서 최신 타운홀 덱 찾기
 - Slides 텍스트에서 CM 블록만 잘라내기

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "generatedAt": null,
+  "cycle": {
+    "id": "2026-2027",
+    "startMonth": "2026-01",
+    "endMonth": "2027-12",
+    "resetMonth": "2028-01",
+    "planningEndMonth": "2027-03",
+    "monthlyTarget": 3,
+    "showNames": false
+  },
+  "summary": {
+    "eligibleCount": 0,
+    "completedCount": 0,
+    "scheduledCount": 0,
+    "remainingCount": 0
+  },
+  "months": [],
+  "warnings": [
+    "임직원 명부 동기화 전입니다."
+  ]
+}
