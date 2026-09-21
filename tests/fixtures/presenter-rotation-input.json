@@ -1,0 +1,23 @@
+{
+  "cycle": {
+    "cycle_id": "fixture-cycle",
+    "start_month": "2026-10",
+    "end_month": "2026-11",
+    "allocation_start_month": "2026-10",
+    "reset_month": "2028-01",
+    "snapshot_date": "2026-09-30",
+    "monthly_target": 3,
+    "seed": "fixture-seed",
+    "show_names": false
+  },
+  "employees": [
+    {"employee_id": "E001", "name": "테스트 1", "joined_on": "2025-01-01", "employment_status": "active"},
+    {"employee_id": "E002", "name": "테스트 2", "joined_on": "2025-01-01", "employment_status": "active"},
+    {"employee_id": "E003", "name": "테스트 3", "joined_on": "2025-01-01", "employment_status": "active"},
+    {"employee_id": "E004", "name": "테스트 4", "joined_on": "2025-01-01", "employment_status": "active"}
+  ],
+  "deferrals": [],
+  "completions": [],
+  "assignments": [],
+  "overrides": []
+}
