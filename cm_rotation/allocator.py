@@ -128,22 +128,13 @@ def build_rotation(payload: dict) -> dict:
     all_future_months = [
         month for month in cycle_months if month >= cycle.allocation_start_month
     ]
-    desired_counts = {
-        month: sum(1 for assignment in assignments if assignment.month == month)
-        for month in all_future_months
-    }
-    people_to_place = len(remaining)
-
-    # 월 기준 인원은 상한이 아니다. 앞선 달부터 기준 인원까지 채운 뒤,
-    # 초과 인원은 현재 배정 수가 가장 적은 달에 고르게 분산한다.
     for month in all_future_months:
-        while desired_counts[month] < cycle.monthly_target and people_to_place:
-            desired_counts[month] += 1
-            people_to_place -= 1
-    while people_to_place:
-        month = min(all_future_months, key=lambda item: (desired_counts[item], item))
-        desired_counts[month] += 1
-        people_to_place -= 1
+        assigned = sum(1 for assignment in assignments if assignment.month == month)
+        if assigned > cycle.monthly_target:
+            raise AllocationError(
+                f"{month} has {assigned} fixed assignments; monthly group size is "
+                f"{cycle.monthly_target}"
+            )
 
     planning_months = [
         month
@@ -152,7 +143,7 @@ def build_rotation(payload: dict) -> dict:
     ]
     for month in planning_months:
         occupied = sum(1 for assignment in assignments if assignment.month == month)
-        for _ in range(max(0, desired_counts[month] - occupied)):
+        for _ in range(max(0, cycle.monthly_target - occupied)):
             selected_index = next(
                 (
                     index
@@ -167,11 +158,6 @@ def build_rotation(payload: dict) -> dict:
             assignments.append(
                 Assignment(employee.employee_id, month, "scheduled", "automatic")
             )
-
-    if remaining and cycle.planning_end_month == cycle.end_month:
-        raise AllocationError(
-            f"{len(remaining)} people could not be placed because of deferrals or probation"
-        )
 
     assignments.sort(key=lambda item: (item.month, item.employee_id))
     return {
