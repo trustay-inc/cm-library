@@ -11,13 +11,180 @@
     "showNames": false
   },
   "summary": {
-    "eligibleCount": 0,
+    "eligibleCount": 77,
     "completedCount": 0,
-    "scheduledCount": 0,
-    "remainingCount": 0
+    "scheduledCount": 32,
+    "remainingCount": 45
   },
-  "months": [],
-  "warnings": [
-    "임직원 명부 동기화 전입니다."
-  ]
+  "months": [
+    {
+      "month": "2026-01",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-02",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-03",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-04",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-05",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-06",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-07",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-08",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-09",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-10",
+      "target": 3,
+      "assignedCount": 6,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-11",
+      "target": 3,
+      "assignedCount": 6,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2026-12",
+      "target": 3,
+      "assignedCount": 5,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-01",
+      "target": 3,
+      "assignedCount": 5,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-02",
+      "target": 3,
+      "assignedCount": 5,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-03",
+      "target": 3,
+      "assignedCount": 5,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-04",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-05",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-06",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-07",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-08",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-09",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-10",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-11",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    },
+    {
+      "month": "2027-12",
+      "target": 3,
+      "assignedCount": 0,
+      "completedCount": 0,
+      "presenters": []
+    }
+  ],
+  "warnings": []
 }
