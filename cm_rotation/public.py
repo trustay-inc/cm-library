@@ -14,7 +14,12 @@ def build_public_projection(rotation: dict, generated_at: str | None = None) -> 
         presenters = []
         if cycle.show_names:
             presenters = [
-                {"name": employees[assignment.employee_id].name, "status": assignment.status}
+                {
+                    "name": employees[assignment.employee_id].name,
+                    "department": employees[assignment.employee_id].department,
+                    "jobTitle": employees[assignment.employee_id].job_title,
+                    "status": assignment.status,
+                }
                 for assignment in monthly
             ]
         months.append(

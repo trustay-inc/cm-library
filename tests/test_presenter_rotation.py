@@ -71,15 +71,17 @@ class RotationTests(unittest.TestCase):
         assigned = {item.employee_id: item.month for item in rotation["assignments"]}
         self.assertEqual(assigned["E001"], "2026-02")
 
-    def test_more_than_monthly_target_is_distributed_without_a_limit(self):
+    def test_more_than_monthly_capacity_remains_unassigned(self):
         rotation = build_rotation(payload(7))
         counts = [
             sum(item.month == month for item in rotation["assignments"])
             for month in ("2026-01", "2026-02")
         ]
-        self.assertEqual(counts, [4, 3])
+        self.assertEqual(counts, [3, 3])
+        public = build_public_projection(rotation)
+        self.assertEqual(public["summary"]["remainingCount"], 1)
 
-    def test_73_people_are_distributed_across_a_72_person_baseline(self):
+    def test_73_people_do_not_expand_monthly_groups_or_raise_an_error(self):
         data = payload(73)
         data["cycle"]["end_month"] = "2027-12"
         data["cycle"]["monthly_target"] = 3
@@ -88,8 +90,19 @@ class RotationTests(unittest.TestCase):
             sum(item.month == month for item in rotation["assignments"])
             for month in month_range("2026-01", "2027-12")
         ]
-        self.assertEqual(sum(counts), 73)
-        self.assertEqual(counts.count(4), 1)
+        self.assertEqual(sum(counts), 72)
+        self.assertEqual(set(counts), {3})
+        public = build_public_projection(rotation)
+        self.assertEqual(public["summary"]["remainingCount"], 1)
+
+    def test_fixed_assignments_cannot_exceed_monthly_group_size(self):
+        data = payload(4)
+        data["assignments"] = [
+            {"employee_id": f"E{index:03d}", "month": "2026-01"}
+            for index in range(1, 5)
+        ]
+        with self.assertRaisesRegex(AllocationError, "monthly group size is 3"):
+            build_rotation(data)
 
     def test_people_after_snapshot_are_left_for_the_next_cycle(self):
         data = payload(2)
@@ -142,7 +155,10 @@ class RotationTests(unittest.TestCase):
         data = payload(1)
         data["cycle"]["show_names"] = True
         public = build_public_projection(build_rotation(data))
-        self.assertEqual(public["months"][0]["presenters"][0]["name"], "구성원 1")
+        presenter = public["months"][0]["presenters"][0]
+        self.assertEqual(presenter["name"], "구성원 1")
+        self.assertEqual(presenter["department"], "비공개 부서")
+        self.assertEqual(presenter["jobTitle"], "비공개 직급")
 
 
 if __name__ == "__main__":
