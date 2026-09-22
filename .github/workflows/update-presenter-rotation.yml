@@ -84,8 +84,23 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: 추첨·완료 변경 main 반영
+        if: >-
+          steps.diff.outputs.changed == 'true' &&
+          github.event_name == 'workflow_dispatch' &&
+          inputs.operation != 'refresh'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/presenter-rotation.json
+          git commit -m "CM Library: ${{ inputs.month }} 발표 일정 반영"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
       - name: 검토 브랜치 push
-        if: steps.diff.outputs.changed == 'true'
+        if: >-
+          steps.diff.outputs.changed == 'true' &&
+          (github.event_name != 'workflow_dispatch' || inputs.operation == 'refresh')
         run: |
           BRANCH="cm-library/presenter-rotation"
           git config user.name "github-actions[bot]"
@@ -96,7 +111,9 @@ jobs:
           git push -f origin "$BRANCH"
 
       - name: Slack 검토 알림
-        if: steps.diff.outputs.changed == 'true'
+        if: >-
+          steps.diff.outputs.changed == 'true' &&
+          (github.event_name != 'workflow_dispatch' || inputs.operation == 'refresh')
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           REPO: ${{ github.repository }}

@@ -117,18 +117,12 @@ Workflow는 매주 월요일에도 실행된다. 변경이 없으면 브랜치�
 필요하다. 결과 JSON은 기존과 동일하게 검토 브랜치에 생성되며, diff 확인 후
 병합한다.
 
-### HTML 관리자 모드
+### 공개 화면과 관리자 작업 분리
 
-`rotation.html`에서도 사내 Google 계정으로 로그인해 같은 Sheet의 추첨과 완료자
-편집을 수행할 수 있다. 브라우저에 서비스 계정 키를 넣지 않고 Google OAuth의
-사용자 액세스 토큰만 사용한다.
+`rotation.html`은 공개 결과 조회 전용이다. 임직원 명부, Sheet ID, Google OAuth
+설정이나 관리자 로그인 기능을 포함하지 않는다. `추첨·완료 관리` 링크는 저장소의
+GitHub Action 화면으로 이동하며 저장소 권한이 있는 사용자만 실행할 수 있다.
 
-1. Google Cloud Console에서 OAuth 클라이언트 유형을 **웹 애플리케이션**으로 만든다.
-2. 승인된 JavaScript 원본에 `https://trustay-inc.github.io`를 등록한다.
-3. 발급된 클라이언트 ID를 `data/presenter-rotation-admin.json`의
-   `googleClientId`에 입력한다. 클라이언트 ID는 공개 값이며 비밀키를 입력하지 않는다.
-4. Sheet를 실제 관리할 사내 계정에 편집 권한으로 공유한다.
-
-HTML 추첨 직후에는 같은 화면에서 3명 결과를 바로 표시하고 Sheet에도 저장한다.
-공개 JSON은 자동으로 커밋되지 않는다.
-화면의 `Action 열기`에서 `refresh`를 실행하고 생성된 검토 브랜치를 병합한다.
+`draw`와 `set-completions`는 Action의 WIF 서비스 계정으로 Sheet를 수정하고 공개
+JSON을 `main`에 바로 반영한다. 이어서 Pages 배포가 자동 실행된다. 정기 실행과
+`refresh`는 기존처럼 검토 브랜치를 만들고 diff 확인 후 병합한다.
