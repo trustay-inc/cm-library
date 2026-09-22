@@ -23,10 +23,9 @@ def draw_presenters(payload: dict, month: str, chooser=None) -> list[str]:
             f"draw month must be {cycle.allocation_start_month} or later"
         )
 
-    draw_months = [item for item in cycle_months if item >= cycle.allocation_start_month]
-    position = draw_months.index(month)
+    position = cycle_months.index(month)
     if position:
-        previous_month = draw_months[position - 1]
+        previous_month = cycle_months[position - 1]
         previous_completed = sum(
             str(item.get("month", "")).strip() == previous_month
             for item in payload.get("completions", [])
@@ -66,6 +65,33 @@ def draw_presenters(payload: dict, month: str, chooser=None) -> list[str]:
         )
     picker = chooser or secrets.SystemRandom().sample
     return list(picker(candidates, slots))
+
+
+def next_draw_month(payload: dict) -> str | None:
+    cycle = Cycle.from_dict(payload["cycle"])
+    cycle_months = month_range(cycle.start_month, cycle.end_month)
+    occupied = {
+        str(item.get("month", "")).strip()
+        for key in ("completions", "assignments")
+        for item in payload.get(key, [])
+    }
+    completed_counts = {
+        month: sum(
+            str(item.get("month", "")).strip() == month
+            for item in payload.get("completions", [])
+        )
+        for month in cycle_months
+    }
+
+    for position, month in enumerate(cycle_months):
+        if month < cycle.allocation_start_month or month > cycle.planning_end_month:
+            continue
+        if month in occupied:
+            continue
+        if position == 0 or completed_counts[cycle_months[position - 1]] >= cycle.monthly_target:
+            return month
+        return None
+    return None
 
 
 def resolve_presenters(payload: dict, identifiers: list[str]) -> list[str]:

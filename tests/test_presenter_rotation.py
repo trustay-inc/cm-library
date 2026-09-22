@@ -3,7 +3,12 @@ from __future__ import annotations
 import unittest
 
 from cm_rotation import AllocationError, build_public_projection, build_rotation
-from cm_rotation.admin import draw_presenters, resolve_presenters, set_month_completions
+from cm_rotation.admin import (
+    draw_presenters,
+    next_draw_month,
+    resolve_presenters,
+    set_month_completions,
+)
 from cm_rotation.models import month_range
 
 
@@ -57,6 +62,42 @@ class RotationTests(unittest.TestCase):
         ]
         selected = draw_presenters(
             data, "2026-02", chooser=lambda items, count: items[:count]
+        )
+        self.assertEqual(len(selected), 3)
+
+    def test_auto_draw_selects_only_the_next_unlocked_month(self):
+        data = payload(7)
+        self.assertEqual(next_draw_month(data), "2026-01")
+        data["assignments"] = [
+            {"employee_id": f"E{index:03d}", "month": "2026-01"}
+            for index in range(1, 4)
+        ]
+        self.assertIsNone(next_draw_month(data))
+        data["assignments"] = []
+        data["completions"] = [
+            {"employee_id": f"E{index:03d}", "month": "2026-01"}
+            for index in range(1, 4)
+        ]
+        self.assertEqual(next_draw_month(data), "2026-02")
+
+    def test_auto_draw_unlocks_allocation_start_after_previous_calendar_month(self):
+        data = payload(7)
+        data["cycle"].update(
+            {
+                "start_month": "2026-09",
+                "end_month": "2026-11",
+                "allocation_start_month": "2026-10",
+                "planning_end_month": "2026-11",
+            }
+        )
+        self.assertIsNone(next_draw_month(data))
+        data["completions"] = [
+            {"employee_id": f"E{index:03d}", "month": "2026-09"}
+            for index in range(1, 4)
+        ]
+        self.assertEqual(next_draw_month(data), "2026-10")
+        selected = draw_presenters(
+            data, "2026-10", chooser=lambda items, count: items[:count]
         )
         self.assertEqual(len(selected), 3)
 
