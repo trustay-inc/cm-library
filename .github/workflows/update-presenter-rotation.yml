@@ -4,6 +4,24 @@ on:
   schedule:
     - cron: "10 1 * * 1" # 매주 월요일 10:10 KST
   workflow_dispatch:
+    inputs:
+      operation:
+        description: "작업"
+        required: true
+        default: refresh
+        type: choice
+        options:
+          - refresh
+          - draw
+          - set-completions
+      month:
+        description: "대상 월 (YYYY-MM, refresh는 비워도 됨)"
+        required: false
+        type: string
+      presenters:
+        description: "완료자 이름 또는 ID, 쉼표 구분 (set-completions 전용)"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -47,7 +65,14 @@ jobs:
         if: steps.config.outputs.configured == 'true'
         env:
           CM_ROSTER_SHEET_ID: ${{ secrets.CM_ROSTER_SHEET_ID }}
-        run: python scripts/plan_presenter_rotation.py --sheet-id "$CM_ROSTER_SHEET_ID"
+          OPERATION: ${{ inputs.operation || 'refresh' }}
+          MONTH: ${{ inputs.month }}
+          PRESENTERS: ${{ inputs.presenters }}
+        run: |
+          args=(--sheet-id "$CM_ROSTER_SHEET_ID" --operation "$OPERATION")
+          if [ -n "$MONTH" ]; then args+=(--month "$MONTH"); fi
+          if [ -n "$PRESENTERS" ]; then args+=(--presenters "$PRESENTERS"); fi
+          python scripts/manage_presenter_rotation.py "${args[@]}"
 
       - name: 변경 확인
         if: steps.config.outputs.configured == 'true'

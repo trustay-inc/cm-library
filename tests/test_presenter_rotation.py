@@ -3,6 +3,7 @@ from __future__ import annotations
 import unittest
 
 from cm_rotation import AllocationError, build_public_projection, build_rotation
+from cm_rotation.admin import draw_presenters, resolve_presenters, set_month_completions
 from cm_rotation.models import month_range
 
 
@@ -41,6 +42,29 @@ def payload(count: int = 6) -> dict:
 
 
 class RotationTests(unittest.TestCase):
+    def test_draw_fills_only_the_three_monthly_slots(self):
+        data = payload(7)
+        selected = draw_presenters(data, "2026-01", chooser=lambda items, count: items[:count])
+        self.assertEqual(selected, ["E001", "E002", "E003"])
+
+    def test_set_completions_replaces_month_and_removes_scheduled_duplicates(self):
+        data = payload(4)
+        data["assignments"] = [
+            {"employee_id": "E001", "month": "2026-01"},
+            {"employee_id": "E004", "month": "2026-02"},
+        ]
+        data["completions"] = [{"employee_id": "E002", "month": "2026-01"}]
+        selected = resolve_presenters(data, ["구성원 3", "E004"])
+        set_month_completions(data, "2026-01", selected)
+        self.assertEqual(
+            data["completions"],
+            [
+                {"employee_id": "E003", "month": "2026-01"},
+                {"employee_id": "E004", "month": "2026-01"},
+            ],
+        )
+        self.assertEqual(data["assignments"], [])
+
     def test_non_replacement_assignment_is_deterministic(self):
         first = build_rotation(payload())
         second = build_rotation(payload())
