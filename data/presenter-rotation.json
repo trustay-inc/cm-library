@@ -15,8 +15,8 @@
   "summary": {
     "eligibleCount": 77,
     "completedCount": 3,
-    "scheduledCount": 0,
-    "remainingCount": 74
+    "scheduledCount": 3,
+    "remainingCount": 71
   },
   "months": [
     {
@@ -104,9 +104,28 @@
     {
       "month": "2026-10",
       "target": 3,
-      "assignedCount": 0,
+      "assignedCount": 3,
       "completedCount": 0,
-      "presenters": []
+      "presenters": [
+        {
+          "name": "이경석",
+          "department": "개발 BE개발팀",
+          "jobTitle": "헤드리더",
+          "status": "scheduled"
+        },
+        {
+          "name": "이다인",
+          "department": "재무,회계 재무회계팀",
+          "jobTitle": "매니저",
+          "status": "scheduled"
+        },
+        {
+          "name": "이시은",
+          "department": "디자인 PO 2팀",
+          "jobTitle": "매니저",
+          "status": "scheduled"
+        }
+      ]
     },
     {
       "month": "2026-11",
