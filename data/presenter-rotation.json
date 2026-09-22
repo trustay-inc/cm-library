@@ -5,16 +5,18 @@
     "id": "2026-2027",
     "startMonth": "2026-01",
     "endMonth": "2027-12",
+    "allocationStartMonth": "2026-10",
     "resetMonth": "2028-01",
     "planningEndMonth": "2027-03",
     "monthlyTarget": 3,
-    "showNames": true
+    "showNames": true,
+    "autoAllocate": false
   },
   "summary": {
     "eligibleCount": 77,
     "completedCount": 3,
-    "scheduledCount": 18,
-    "remainingCount": 56
+    "scheduledCount": 0,
+    "remainingCount": 74
   },
   "months": [
     {
@@ -102,158 +104,44 @@
     {
       "month": "2026-10",
       "target": 3,
-      "assignedCount": 3,
+      "assignedCount": 0,
       "completedCount": 0,
-      "presenters": [
-        {
-          "name": "박현지",
-          "department": "영업 노크타운 영업팀",
-          "jobTitle": "헤드리더",
-          "status": "scheduled"
-        },
-        {
-          "name": "박형준",
-          "department": "영업 노크존 영업팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        },
-        {
-          "name": "한수민",
-          "department": "사업 광고사업팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        }
-      ]
+      "presenters": []
     },
     {
       "month": "2026-11",
       "target": 3,
-      "assignedCount": 3,
+      "assignedCount": 0,
       "completedCount": 0,
-      "presenters": [
-        {
-          "name": "김두형",
-          "department": "영업 노크타운 영업팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        },
-        {
-          "name": "정성은",
-          "department": "경영 전략기획팀",
-          "jobTitle": "팀리더",
-          "status": "scheduled"
-        },
-        {
-          "name": "정진원",
-          "department": "영업 CSM팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        }
-      ]
+      "presenters": []
     },
     {
       "month": "2026-12",
       "target": 3,
-      "assignedCount": 3,
+      "assignedCount": 0,
       "completedCount": 0,
-      "presenters": [
-        {
-          "name": "김광용",
-          "department": "개발 BE개발팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        },
-        {
-          "name": "김호",
-          "department": "영업 솔루션 사업부",
-          "jobTitle": "CSO, 영업 지원팀 · CSO|상무이사",
-          "status": "scheduled"
-        },
-        {
-          "name": "주상현",
-          "department": "영업 노크타운 영업팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        }
-      ]
+      "presenters": []
     },
     {
       "month": "2027-01",
       "target": 3,
-      "assignedCount": 3,
+      "assignedCount": 0,
       "completedCount": 0,
-      "presenters": [
-        {
-          "name": "권유안",
-          "department": "영업 노크타운 영업팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        },
-        {
-          "name": "이건희",
-          "department": "영업 기술PM팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        },
-        {
-          "name": "한용학",
-          "department": "영업 노크존 영업팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        }
-      ]
+      "presenters": []
     },
     {
       "month": "2027-02",
       "target": 3,
-      "assignedCount": 3,
+      "assignedCount": 0,
       "completedCount": 0,
-      "presenters": [
-        {
-          "name": "김예빈",
-          "department": "영업 노크타운 영업팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        },
-        {
-          "name": "백정현",
-          "department": "영업 영업 지원팀",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        },
-        {
-          "name": "이수연",
-          "department": "경영 재무회계팀",
-          "jobTitle": "팀리더",
-          "status": "scheduled"
-        }
-      ]
+      "presenters": []
     },
     {
       "month": "2027-03",
       "target": 3,
-      "assignedCount": 3,
+      "assignedCount": 0,
       "completedCount": 0,
-      "presenters": [
-        {
-          "name": "김해든",
-          "department": "디자인 Enterprise팀 Product 파트",
-          "jobTitle": "매니저",
-          "status": "scheduled"
-        },
-        {
-          "name": "이경석",
-          "department": "개발 BE개발팀",
-          "jobTitle": "헤드리더",
-          "status": "scheduled"
-        },
-        {
-          "name": "이정현",
-          "department": "개발 AI개발팀 상용화 파트",
-          "jobTitle": "파트리더",
-          "status": "scheduled"
-        }
-      ]
+      "presenters": []
     },
     {
       "month": "2027-04",
