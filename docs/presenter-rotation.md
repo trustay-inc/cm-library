@@ -102,3 +102,30 @@ python scripts/plan_presenter_rotation.py \
 5. Slack으로 전달된 compare 링크에서 공개 JSON diff를 확인하고 PR을 만든다.
 
 Workflow는 매주 월요일에도 실행된다. 변경이 없으면 브랜치나 알림을 만들지 않는다.
+
+### Action에서 추첨·완료자 수정
+
+`CM 발표 일정 갱신` Action의 `Run workflow`에서 작업을 선택한다.
+
+- `refresh`: Sheet의 현재 내용을 읽어 공개 일정을 다시 생성
+- `draw`: `month`에 `YYYY-MM`을 입력해 해당 월의 빈자리를 3명까지 비복원 추첨하고 `Assignments`에 저장
+- `set-completions`: `month`와 쉼표로 구분한 발표자 이름 또는 ID를 입력해 해당 월의 `Completions`를 교체
+
+추첨과 완료자 수정은 Google Sheet를 변경하므로 CI 서비스 계정에 편집 권한이
+필요하다. 결과 JSON은 기존과 동일하게 검토 브랜치에 생성되며, diff 확인 후
+병합한다.
+
+### HTML 관리자 모드
+
+`rotation.html`에서도 사내 Google 계정으로 로그인해 같은 Sheet의 추첨과 완료자
+편집을 수행할 수 있다. 브라우저에 서비스 계정 키를 넣지 않고 Google OAuth의
+사용자 액세스 토큰만 사용한다.
+
+1. Google Cloud Console에서 OAuth 클라이언트 유형을 **웹 애플리케이션**으로 만든다.
+2. 승인된 JavaScript 원본에 `https://trustay-inc.github.io`를 등록한다.
+3. 발급된 클라이언트 ID를 `data/presenter-rotation-admin.json`의
+   `googleClientId`에 입력한다. 클라이언트 ID는 공개 값이며 비밀키를 입력하지 않는다.
+4. Sheet를 실제 관리할 사내 계정에 편집 권한으로 공유한다.
+
+HTML에서 저장한 직후 Sheet에는 반영되지만 공개 JSON은 자동으로 커밋되지 않는다.
+화면의 `Action 열기`에서 `refresh`를 실행하고 생성된 검토 브랜치를 병합한다.
