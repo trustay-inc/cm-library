@@ -8,5 +8,6 @@
   "snapshot_date": "2026-09-30",
   "monthly_target": 3,
   "seed": "cm-presenter-rotation-2026-2027",
-  "show_names": true
+  "show_names": true,
+  "auto_allocate": false
 }
