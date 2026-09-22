@@ -47,6 +47,26 @@ class RotationTests(unittest.TestCase):
         selected = draw_presenters(data, "2026-01", chooser=lambda items, count: items[:count])
         self.assertEqual(selected, ["E001", "E002", "E003"])
 
+    def test_next_month_draw_requires_previous_month_completion(self):
+        data = payload(7)
+        with self.assertRaisesRegex(AllocationError, "complete 2026-01"):
+            draw_presenters(data, "2026-02")
+        data["completions"] = [
+            {"employee_id": f"E{index:03d}", "month": "2026-01"}
+            for index in range(1, 4)
+        ]
+        selected = draw_presenters(
+            data, "2026-02", chooser=lambda items, count: items[:count]
+        )
+        self.assertEqual(len(selected), 3)
+
+    def test_manual_draw_mode_does_not_preassign_future_months(self):
+        data = payload(7)
+        data["cycle"]["auto_allocate"] = False
+        rotation = build_rotation(data)
+        self.assertEqual(rotation["assignments"], [])
+        self.assertEqual(build_public_projection(rotation)["summary"]["remainingCount"], 7)
+
     def test_set_completions_replaces_month_and_removes_scheduled_duplicates(self):
         data = payload(4)
         data["assignments"] = [

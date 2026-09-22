@@ -38,6 +38,7 @@ class Cycle:
     monthly_target: int = 3
     seed: str = "cm-presenter-rotation"
     show_names: bool = False
+    auto_allocate: bool = True
 
     @classmethod
     def from_dict(cls, raw: dict) -> "Cycle":
@@ -57,6 +58,7 @@ class Cycle:
             monthly_target=target,
             seed=str(raw.get("seed", "cm-presenter-rotation")),
             show_names=bool(raw.get("show_names", False)),
+            auto_allocate=bool(raw.get("auto_allocate", True)),
         )
         months = month_range(cycle.start_month, cycle.end_month)
         if cycle.allocation_start_month not in months:

@@ -15,8 +15,26 @@ def _employees(payload: dict) -> dict[str, Employee]:
 
 def draw_presenters(payload: dict, month: str, chooser=None) -> list[str]:
     cycle = Cycle.from_dict(payload["cycle"])
-    if month not in month_range(cycle.start_month, cycle.end_month):
+    cycle_months = month_range(cycle.start_month, cycle.end_month)
+    if month not in cycle_months:
         raise AllocationError(f"assignment month is outside cycle: {month}")
+    if month < cycle.allocation_start_month:
+        raise AllocationError(
+            f"draw month must be {cycle.allocation_start_month} or later"
+        )
+
+    draw_months = [item for item in cycle_months if item >= cycle.allocation_start_month]
+    position = draw_months.index(month)
+    if position:
+        previous_month = draw_months[position - 1]
+        previous_completed = sum(
+            str(item.get("month", "")).strip() == previous_month
+            for item in payload.get("completions", [])
+        )
+        if previous_completed < cycle.monthly_target:
+            raise AllocationError(
+                f"complete {previous_month} before drawing presenters for {month}"
+            )
 
     employees = _employees(payload)
     deferrals = [Deferral.from_dict(item) for item in payload.get("deferrals", [])]

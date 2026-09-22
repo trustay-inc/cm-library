@@ -41,10 +41,12 @@ def build_public_projection(rotation: dict, generated_at: str | None = None) -> 
             "id": cycle.cycle_id,
             "startMonth": cycle.start_month,
             "endMonth": cycle.end_month,
+            "allocationStartMonth": cycle.allocation_start_month,
             "resetMonth": cycle.reset_month,
             "planningEndMonth": cycle.planning_end_month,
             "monthlyTarget": cycle.monthly_target,
             "showNames": cycle.show_names,
+            "autoAllocate": cycle.auto_allocate,
         },
         "summary": {
             "eligibleCount": rotation["eligible_count"],

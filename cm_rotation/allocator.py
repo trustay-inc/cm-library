@@ -136,28 +136,29 @@ def build_rotation(payload: dict) -> dict:
                 f"{cycle.monthly_target}"
             )
 
-    planning_months = [
-        month
-        for month in all_future_months
-        if month <= cycle.planning_end_month
-    ]
-    for month in planning_months:
-        occupied = sum(1 for assignment in assignments if assignment.month == month)
-        for _ in range(max(0, cycle.monthly_target - occupied)):
-            selected_index = next(
-                (
-                    index
-                    for index, employee in enumerate(remaining)
-                    if _available(employee, month, deferrals)
-                ),
-                None,
-            )
-            if selected_index is None:
-                break
-            employee = remaining.pop(selected_index)
-            assignments.append(
-                Assignment(employee.employee_id, month, "scheduled", "automatic")
-            )
+    if cycle.auto_allocate:
+        planning_months = [
+            month
+            for month in all_future_months
+            if month <= cycle.planning_end_month
+        ]
+        for month in planning_months:
+            occupied = sum(1 for assignment in assignments if assignment.month == month)
+            for _ in range(max(0, cycle.monthly_target - occupied)):
+                selected_index = next(
+                    (
+                        index
+                        for index, employee in enumerate(remaining)
+                        if _available(employee, month, deferrals)
+                    ),
+                    None,
+                )
+                if selected_index is None:
+                    break
+                employee = remaining.pop(selected_index)
+                assignments.append(
+                    Assignment(employee.employee_id, month, "scheduled", "automatic")
+                )
 
     assignments.sort(key=lambda item: (item.month, item.employee_id))
     return {
