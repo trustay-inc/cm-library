@@ -31,6 +31,9 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+      operation: ${{ env.OPERATION }}
     env:
       OPERATION: ${{ github.event_name == 'schedule' && 'auto-draw' || inputs.operation || 'refresh' }}
     steps:
@@ -144,3 +147,27 @@ jobs:
           )
           urllib.request.urlopen(request)
           PYEOF
+
+  deploy:
+    needs: update
+    if: >-
+      needs.update.outputs.changed == 'true' &&
+      needs.update.outputs.operation != 'refresh'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4
